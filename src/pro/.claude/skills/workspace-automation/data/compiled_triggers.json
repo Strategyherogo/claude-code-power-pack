@@ -1,0 +1,1943 @@
+{
+  "version": "1.0",
+  "source": "$HOME/ClaudeCodeWorkspace/.claude/MASTER.md",
+  "tiers": {
+    "1": {
+      "name": "BLOCKING",
+      "description": "Must complete gate before proceeding",
+      "triggers": [
+        {
+          "tier": 1,
+          "keywords": [
+            "done",
+            "fixed",
+            "complete",
+            "resolved"
+          ],
+          "command": "/verify",
+          "gate": "Pre-completion"
+        },
+        {
+          "tier": 1,
+          "keywords": [
+            "deploy",
+            "production",
+            "release",
+            "live"
+          ],
+          "command": "/deploy-verify",
+          "gate": "Pre-deployment"
+        },
+        {
+          "tier": 1,
+          "keywords": [
+            "ship it",
+            "quick deploy"
+          ],
+          "command": "/quick-deploy",
+          "gate": "Rapid deploy"
+        }
+      ]
+    },
+    "2": {
+      "name": "SUGGEST",
+      "description": "Offer workflow, allow skip",
+      "triggers": [
+        {
+          "tier": 2,
+          "keywords": [
+            "debug",
+            "broken",
+            "error",
+            "not working",
+            "bug"
+          ],
+          "command": "/systematic-debug",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "trace",
+            "root cause",
+            "why"
+          ],
+          "command": "/root-trace",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "test",
+            "tdd",
+            "test-first"
+          ],
+          "command": "/tdd",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "build",
+            "compile",
+            "won't build"
+          ],
+          "command": "/build-test",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "edge case",
+            "boundary",
+            "what if"
+          ],
+          "command": "/edge-test",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "plan",
+            "approach",
+            "how should"
+          ],
+          "command": "/write-plan",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "parallel",
+            "concurrent",
+            "multiple agents"
+          ],
+          "command": "/parallel-agents",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "brainstorm",
+            "ideas",
+            "options"
+          ],
+          "command": "/brainstorm",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "health",
+            "status",
+            "is it up"
+          ],
+          "command": "/do-health",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "errors",
+            "logs",
+            "what went wrong"
+          ],
+          "command": "/log-errors",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "env",
+            "secrets",
+            "environment"
+          ],
+          "command": "/env-sync",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "ir deploy",
+            "email monitor"
+          ],
+          "command": "/deploy-ir",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "test alert",
+            "alerting"
+          ],
+          "command": "/alert-test",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "blog",
+            "article",
+            "write post"
+          ],
+          "command": "/c2c:blog",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "quick blog",
+            "short post"
+          ],
+          "command": "/c2c:quick-blog",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "tweet",
+            "thread",
+            "twitter"
+          ],
+          "command": "/c2c:twitter",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "linkedin",
+            "linkedin post"
+          ],
+          "command": "/c2c:linkedin",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "newsletter",
+            "email newsletter"
+          ],
+          "command": "/c2c:newsletter",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "video script",
+            "youtube"
+          ],
+          "command": "/c2c:video-script",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "readme",
+            "documentation"
+          ],
+          "command": "/c2c:readme",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "tutorial",
+            "how-to guide"
+          ],
+          "command": "/c2c:tutorial",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "product launch",
+            "announcement"
+          ],
+          "command": "/c2c:product-launch",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "conference",
+            "talk",
+            "presentation"
+          ],
+          "command": "/c2c:conference-talk",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "landing",
+            "copy",
+            "sales page"
+          ],
+          "command": "/landing-copy",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "cold email",
+            "outreach",
+            "prospecting"
+          ],
+          "command": "/cold-outreach",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "case study",
+            "success story"
+          ],
+          "command": "/case-study",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "demo script",
+            "product demo"
+          ],
+          "command": "/demo-script",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "content brief",
+            "content plan"
+          ],
+          "command": "/content-brief",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "marketing assets",
+            "brand"
+          ],
+          "command": "/marketing-assets",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "website design",
+            "mockup"
+          ],
+          "command": "/design-website",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "cs",
+            "context save",
+            "done for today"
+          ],
+          "command": "/cs",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "save",
+            "checkpoint"
+          ],
+          "command": "/save",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "focus",
+            "deep work"
+          ],
+          "command": "/focus",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "reflect",
+            "lessons",
+            "retro"
+          ],
+          "command": "/reflect",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "audit",
+            "cleanup",
+            "workspace"
+          ],
+          "command": "/workspace-audit",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "organize",
+            "structure"
+          ],
+          "command": "/organize",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "archive",
+            "old files"
+          ],
+          "command": "/archive",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "query",
+            "sql",
+            "database"
+          ],
+          "command": "/db-query",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "lookup",
+            "search data"
+          ],
+          "command": "/lookup",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "gmail search",
+            "drive search",
+            "gws"
+          ],
+          "command": "/gws-search",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "email report",
+            "gws report"
+          ],
+          "command": "/gws-email-report",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "credentials",
+            "cred map"
+          ],
+          "command": "/cred-map",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "jira",
+            "ticket",
+            "issue"
+          ],
+          "command": "/jira-quick",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "jira comments",
+            "check comments"
+          ],
+          "command": "/jira-comment-check",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "duplicates",
+            "dedup"
+          ],
+          "command": "/dedup-check",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "compliance",
+            "audit",
+            "security"
+          ],
+          "command": "/compliance-pack",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "pdf report",
+            "generate report"
+          ],
+          "command": "/report-pdf",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "email",
+            "compose"
+          ],
+          "command": "/mail",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "swift async",
+            "await",
+            "mainactor"
+          ],
+          "command": "/swift:async-troubleshoot",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "swift memory",
+            "leaks",
+            "instruments"
+          ],
+          "command": "/swift:debug-memory",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "app store",
+            "submission",
+            "review"
+          ],
+          "command": "/swift:app-store-prep",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "feature priority",
+            "rice",
+            "scoring"
+          ],
+          "command": "/pm:feature-prioritize",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "roadmap",
+            "product roadmap"
+          ],
+          "command": "/pm:roadmap-build",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "email forensic",
+            "investigation"
+          ],
+          "command": "/email:forensic-workflow",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "email metadata",
+            "headers"
+          ],
+          "command": "/email:metadata-extract",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "email compliance",
+            "audit"
+          ],
+          "command": "/email:compliance-report",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "slack bot",
+            "slack debug"
+          ],
+          "command": "/bot:slack-debug",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "telegram bot",
+            "telegram debug"
+          ],
+          "command": "/bot:telegram-debug",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "chrome extension",
+            "extension debug"
+          ],
+          "command": "/chrome:extension-debug",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "cloudflare worker",
+            "cf deploy"
+          ],
+          "command": "/deploy:cloudflare-worker",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "hrv",
+            "stress",
+            "energy",
+            "neuro"
+          ],
+          "command": "/neuro:daily-check",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "weekly review",
+            "ops review"
+          ],
+          "command": "/weekly-ops-review",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "code review",
+            "review code",
+            "pr review"
+          ],
+          "command": "/agent:code-review",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "analyze project",
+            "project structure"
+          ],
+          "command": "/agent:project-analyzer",
+          "gate": null
+        },
+        {
+          "tier": 2,
+          "keywords": [
+            "deploy pipeline",
+            "ci/cd"
+          ],
+          "command": "/agent:deploy-pipeline",
+          "gate": null
+        }
+      ]
+    },
+    "3": {
+      "name": "CONVENIENCE",
+      "description": "Mention if relevant",
+      "triggers": [
+        {
+          "tier": 3,
+          "keywords": [
+            "create skill",
+            "new skill"
+          ],
+          "command": "/make-skill",
+          "gate": null
+        },
+        {
+          "tier": 3,
+          "keywords": [
+            "skill list",
+            "all skills"
+          ],
+          "command": "/SKILL-INDEX",
+          "gate": null
+        },
+        {
+          "tier": 3,
+          "keywords": [
+            "mcp servers",
+            "recommended mcp"
+          ],
+          "command": "/mcp:recommended-servers",
+          "gate": null
+        }
+      ]
+    }
+  },
+  "keyword_index": {
+    "done": [
+      {
+        "tier": 1,
+        "command": "/verify",
+        "gate": "Pre-completion"
+      }
+    ],
+    "fixed": [
+      {
+        "tier": 1,
+        "command": "/verify",
+        "gate": "Pre-completion"
+      }
+    ],
+    "complete": [
+      {
+        "tier": 1,
+        "command": "/verify",
+        "gate": "Pre-completion"
+      }
+    ],
+    "resolved": [
+      {
+        "tier": 1,
+        "command": "/verify",
+        "gate": "Pre-completion"
+      }
+    ],
+    "deploy": [
+      {
+        "tier": 1,
+        "command": "/deploy-verify",
+        "gate": "Pre-deployment"
+      }
+    ],
+    "production": [
+      {
+        "tier": 1,
+        "command": "/deploy-verify",
+        "gate": "Pre-deployment"
+      }
+    ],
+    "release": [
+      {
+        "tier": 1,
+        "command": "/deploy-verify",
+        "gate": "Pre-deployment"
+      }
+    ],
+    "live": [
+      {
+        "tier": 1,
+        "command": "/deploy-verify",
+        "gate": "Pre-deployment"
+      }
+    ],
+    "ship it": [
+      {
+        "tier": 1,
+        "command": "/quick-deploy",
+        "gate": "Rapid deploy"
+      }
+    ],
+    "quick deploy": [
+      {
+        "tier": 1,
+        "command": "/quick-deploy",
+        "gate": "Rapid deploy"
+      }
+    ],
+    "debug": [
+      {
+        "tier": 2,
+        "command": "/systematic-debug",
+        "gate": null
+      }
+    ],
+    "broken": [
+      {
+        "tier": 2,
+        "command": "/systematic-debug",
+        "gate": null
+      }
+    ],
+    "error": [
+      {
+        "tier": 2,
+        "command": "/systematic-debug",
+        "gate": null
+      }
+    ],
+    "not working": [
+      {
+        "tier": 2,
+        "command": "/systematic-debug",
+        "gate": null
+      }
+    ],
+    "bug": [
+      {
+        "tier": 2,
+        "command": "/systematic-debug",
+        "gate": null
+      }
+    ],
+    "trace": [
+      {
+        "tier": 2,
+        "command": "/root-trace",
+        "gate": null
+      }
+    ],
+    "root cause": [
+      {
+        "tier": 2,
+        "command": "/root-trace",
+        "gate": null
+      }
+    ],
+    "why": [
+      {
+        "tier": 2,
+        "command": "/root-trace",
+        "gate": null
+      }
+    ],
+    "test": [
+      {
+        "tier": 2,
+        "command": "/tdd",
+        "gate": null
+      }
+    ],
+    "tdd": [
+      {
+        "tier": 2,
+        "command": "/tdd",
+        "gate": null
+      }
+    ],
+    "test-first": [
+      {
+        "tier": 2,
+        "command": "/tdd",
+        "gate": null
+      }
+    ],
+    "build": [
+      {
+        "tier": 2,
+        "command": "/build-test",
+        "gate": null
+      }
+    ],
+    "compile": [
+      {
+        "tier": 2,
+        "command": "/build-test",
+        "gate": null
+      }
+    ],
+    "won't build": [
+      {
+        "tier": 2,
+        "command": "/build-test",
+        "gate": null
+      }
+    ],
+    "edge case": [
+      {
+        "tier": 2,
+        "command": "/edge-test",
+        "gate": null
+      }
+    ],
+    "boundary": [
+      {
+        "tier": 2,
+        "command": "/edge-test",
+        "gate": null
+      }
+    ],
+    "what if": [
+      {
+        "tier": 2,
+        "command": "/edge-test",
+        "gate": null
+      }
+    ],
+    "plan": [
+      {
+        "tier": 2,
+        "command": "/write-plan",
+        "gate": null
+      }
+    ],
+    "approach": [
+      {
+        "tier": 2,
+        "command": "/write-plan",
+        "gate": null
+      }
+    ],
+    "how should": [
+      {
+        "tier": 2,
+        "command": "/write-plan",
+        "gate": null
+      }
+    ],
+    "parallel": [
+      {
+        "tier": 2,
+        "command": "/parallel-agents",
+        "gate": null
+      }
+    ],
+    "concurrent": [
+      {
+        "tier": 2,
+        "command": "/parallel-agents",
+        "gate": null
+      }
+    ],
+    "multiple agents": [
+      {
+        "tier": 2,
+        "command": "/parallel-agents",
+        "gate": null
+      }
+    ],
+    "brainstorm": [
+      {
+        "tier": 2,
+        "command": "/brainstorm",
+        "gate": null
+      }
+    ],
+    "ideas": [
+      {
+        "tier": 2,
+        "command": "/brainstorm",
+        "gate": null
+      }
+    ],
+    "options": [
+      {
+        "tier": 2,
+        "command": "/brainstorm",
+        "gate": null
+      }
+    ],
+    "health": [
+      {
+        "tier": 2,
+        "command": "/do-health",
+        "gate": null
+      }
+    ],
+    "status": [
+      {
+        "tier": 2,
+        "command": "/do-health",
+        "gate": null
+      }
+    ],
+    "is it up": [
+      {
+        "tier": 2,
+        "command": "/do-health",
+        "gate": null
+      }
+    ],
+    "errors": [
+      {
+        "tier": 2,
+        "command": "/log-errors",
+        "gate": null
+      }
+    ],
+    "logs": [
+      {
+        "tier": 2,
+        "command": "/log-errors",
+        "gate": null
+      }
+    ],
+    "what went wrong": [
+      {
+        "tier": 2,
+        "command": "/log-errors",
+        "gate": null
+      }
+    ],
+    "env": [
+      {
+        "tier": 2,
+        "command": "/env-sync",
+        "gate": null
+      }
+    ],
+    "secrets": [
+      {
+        "tier": 2,
+        "command": "/env-sync",
+        "gate": null
+      }
+    ],
+    "environment": [
+      {
+        "tier": 2,
+        "command": "/env-sync",
+        "gate": null
+      }
+    ],
+    "ir deploy": [
+      {
+        "tier": 2,
+        "command": "/deploy-ir",
+        "gate": null
+      }
+    ],
+    "email monitor": [
+      {
+        "tier": 2,
+        "command": "/deploy-ir",
+        "gate": null
+      }
+    ],
+    "test alert": [
+      {
+        "tier": 2,
+        "command": "/alert-test",
+        "gate": null
+      }
+    ],
+    "alerting": [
+      {
+        "tier": 2,
+        "command": "/alert-test",
+        "gate": null
+      }
+    ],
+    "blog": [
+      {
+        "tier": 2,
+        "command": "/c2c:blog",
+        "gate": null
+      }
+    ],
+    "article": [
+      {
+        "tier": 2,
+        "command": "/c2c:blog",
+        "gate": null
+      }
+    ],
+    "write post": [
+      {
+        "tier": 2,
+        "command": "/c2c:blog",
+        "gate": null
+      }
+    ],
+    "quick blog": [
+      {
+        "tier": 2,
+        "command": "/c2c:quick-blog",
+        "gate": null
+      }
+    ],
+    "short post": [
+      {
+        "tier": 2,
+        "command": "/c2c:quick-blog",
+        "gate": null
+      }
+    ],
+    "tweet": [
+      {
+        "tier": 2,
+        "command": "/c2c:twitter",
+        "gate": null
+      }
+    ],
+    "thread": [
+      {
+        "tier": 2,
+        "command": "/c2c:twitter",
+        "gate": null
+      }
+    ],
+    "twitter": [
+      {
+        "tier": 2,
+        "command": "/c2c:twitter",
+        "gate": null
+      }
+    ],
+    "linkedin": [
+      {
+        "tier": 2,
+        "command": "/c2c:linkedin",
+        "gate": null
+      }
+    ],
+    "linkedin post": [
+      {
+        "tier": 2,
+        "command": "/c2c:linkedin",
+        "gate": null
+      }
+    ],
+    "newsletter": [
+      {
+        "tier": 2,
+        "command": "/c2c:newsletter",
+        "gate": null
+      }
+    ],
+    "email newsletter": [
+      {
+        "tier": 2,
+        "command": "/c2c:newsletter",
+        "gate": null
+      }
+    ],
+    "video script": [
+      {
+        "tier": 2,
+        "command": "/c2c:video-script",
+        "gate": null
+      }
+    ],
+    "youtube": [
+      {
+        "tier": 2,
+        "command": "/c2c:video-script",
+        "gate": null
+      }
+    ],
+    "readme": [
+      {
+        "tier": 2,
+        "command": "/c2c:readme",
+        "gate": null
+      }
+    ],
+    "documentation": [
+      {
+        "tier": 2,
+        "command": "/c2c:readme",
+        "gate": null
+      }
+    ],
+    "tutorial": [
+      {
+        "tier": 2,
+        "command": "/c2c:tutorial",
+        "gate": null
+      }
+    ],
+    "how-to guide": [
+      {
+        "tier": 2,
+        "command": "/c2c:tutorial",
+        "gate": null
+      }
+    ],
+    "product launch": [
+      {
+        "tier": 2,
+        "command": "/c2c:product-launch",
+        "gate": null
+      }
+    ],
+    "announcement": [
+      {
+        "tier": 2,
+        "command": "/c2c:product-launch",
+        "gate": null
+      }
+    ],
+    "conference": [
+      {
+        "tier": 2,
+        "command": "/c2c:conference-talk",
+        "gate": null
+      }
+    ],
+    "talk": [
+      {
+        "tier": 2,
+        "command": "/c2c:conference-talk",
+        "gate": null
+      }
+    ],
+    "presentation": [
+      {
+        "tier": 2,
+        "command": "/c2c:conference-talk",
+        "gate": null
+      }
+    ],
+    "landing": [
+      {
+        "tier": 2,
+        "command": "/landing-copy",
+        "gate": null
+      }
+    ],
+    "copy": [
+      {
+        "tier": 2,
+        "command": "/landing-copy",
+        "gate": null
+      }
+    ],
+    "sales page": [
+      {
+        "tier": 2,
+        "command": "/landing-copy",
+        "gate": null
+      }
+    ],
+    "cold email": [
+      {
+        "tier": 2,
+        "command": "/cold-outreach",
+        "gate": null
+      }
+    ],
+    "outreach": [
+      {
+        "tier": 2,
+        "command": "/cold-outreach",
+        "gate": null
+      }
+    ],
+    "prospecting": [
+      {
+        "tier": 2,
+        "command": "/cold-outreach",
+        "gate": null
+      }
+    ],
+    "case study": [
+      {
+        "tier": 2,
+        "command": "/case-study",
+        "gate": null
+      }
+    ],
+    "success story": [
+      {
+        "tier": 2,
+        "command": "/case-study",
+        "gate": null
+      }
+    ],
+    "demo script": [
+      {
+        "tier": 2,
+        "command": "/demo-script",
+        "gate": null
+      }
+    ],
+    "product demo": [
+      {
+        "tier": 2,
+        "command": "/demo-script",
+        "gate": null
+      }
+    ],
+    "content brief": [
+      {
+        "tier": 2,
+        "command": "/content-brief",
+        "gate": null
+      }
+    ],
+    "content plan": [
+      {
+        "tier": 2,
+        "command": "/content-brief",
+        "gate": null
+      }
+    ],
+    "marketing assets": [
+      {
+        "tier": 2,
+        "command": "/marketing-assets",
+        "gate": null
+      }
+    ],
+    "brand": [
+      {
+        "tier": 2,
+        "command": "/marketing-assets",
+        "gate": null
+      }
+    ],
+    "website design": [
+      {
+        "tier": 2,
+        "command": "/design-website",
+        "gate": null
+      }
+    ],
+    "mockup": [
+      {
+        "tier": 2,
+        "command": "/design-website",
+        "gate": null
+      }
+    ],
+    "cs": [
+      {
+        "tier": 2,
+        "command": "/cs",
+        "gate": null
+      }
+    ],
+    "context save": [
+      {
+        "tier": 2,
+        "command": "/cs",
+        "gate": null
+      }
+    ],
+    "done for today": [
+      {
+        "tier": 2,
+        "command": "/cs",
+        "gate": null
+      }
+    ],
+    "save": [
+      {
+        "tier": 2,
+        "command": "/save",
+        "gate": null
+      }
+    ],
+    "checkpoint": [
+      {
+        "tier": 2,
+        "command": "/save",
+        "gate": null
+      }
+    ],
+    "focus": [
+      {
+        "tier": 2,
+        "command": "/focus",
+        "gate": null
+      }
+    ],
+    "deep work": [
+      {
+        "tier": 2,
+        "command": "/focus",
+        "gate": null
+      }
+    ],
+    "reflect": [
+      {
+        "tier": 2,
+        "command": "/reflect",
+        "gate": null
+      }
+    ],
+    "lessons": [
+      {
+        "tier": 2,
+        "command": "/reflect",
+        "gate": null
+      }
+    ],
+    "retro": [
+      {
+        "tier": 2,
+        "command": "/reflect",
+        "gate": null
+      }
+    ],
+    "audit": [
+      {
+        "tier": 2,
+        "command": "/workspace-audit",
+        "gate": null
+      },
+      {
+        "tier": 2,
+        "command": "/compliance-pack",
+        "gate": null
+      },
+      {
+        "tier": 2,
+        "command": "/email:compliance-report",
+        "gate": null
+      }
+    ],
+    "cleanup": [
+      {
+        "tier": 2,
+        "command": "/workspace-audit",
+        "gate": null
+      }
+    ],
+    "workspace": [
+      {
+        "tier": 2,
+        "command": "/workspace-audit",
+        "gate": null
+      }
+    ],
+    "organize": [
+      {
+        "tier": 2,
+        "command": "/organize",
+        "gate": null
+      }
+    ],
+    "structure": [
+      {
+        "tier": 2,
+        "command": "/organize",
+        "gate": null
+      }
+    ],
+    "archive": [
+      {
+        "tier": 2,
+        "command": "/archive",
+        "gate": null
+      }
+    ],
+    "old files": [
+      {
+        "tier": 2,
+        "command": "/archive",
+        "gate": null
+      }
+    ],
+    "query": [
+      {
+        "tier": 2,
+        "command": "/db-query",
+        "gate": null
+      }
+    ],
+    "sql": [
+      {
+        "tier": 2,
+        "command": "/db-query",
+        "gate": null
+      }
+    ],
+    "database": [
+      {
+        "tier": 2,
+        "command": "/db-query",
+        "gate": null
+      }
+    ],
+    "lookup": [
+      {
+        "tier": 2,
+        "command": "/lookup",
+        "gate": null
+      }
+    ],
+    "search data": [
+      {
+        "tier": 2,
+        "command": "/lookup",
+        "gate": null
+      }
+    ],
+    "gmail search": [
+      {
+        "tier": 2,
+        "command": "/gws-search",
+        "gate": null
+      }
+    ],
+    "drive search": [
+      {
+        "tier": 2,
+        "command": "/gws-search",
+        "gate": null
+      }
+    ],
+    "gws": [
+      {
+        "tier": 2,
+        "command": "/gws-search",
+        "gate": null
+      }
+    ],
+    "email report": [
+      {
+        "tier": 2,
+        "command": "/gws-email-report",
+        "gate": null
+      }
+    ],
+    "gws report": [
+      {
+        "tier": 2,
+        "command": "/gws-email-report",
+        "gate": null
+      }
+    ],
+    "credentials": [
+      {
+        "tier": 2,
+        "command": "/cred-map",
+        "gate": null
+      }
+    ],
+    "cred map": [
+      {
+        "tier": 2,
+        "command": "/cred-map",
+        "gate": null
+      }
+    ],
+    "jira": [
+      {
+        "tier": 2,
+        "command": "/jira-quick",
+        "gate": null
+      }
+    ],
+    "ticket": [
+      {
+        "tier": 2,
+        "command": "/jira-quick",
+        "gate": null
+      }
+    ],
+    "issue": [
+      {
+        "tier": 2,
+        "command": "/jira-quick",
+        "gate": null
+      }
+    ],
+    "jira comments": [
+      {
+        "tier": 2,
+        "command": "/jira-comment-check",
+        "gate": null
+      }
+    ],
+    "check comments": [
+      {
+        "tier": 2,
+        "command": "/jira-comment-check",
+        "gate": null
+      }
+    ],
+    "duplicates": [
+      {
+        "tier": 2,
+        "command": "/dedup-check",
+        "gate": null
+      }
+    ],
+    "dedup": [
+      {
+        "tier": 2,
+        "command": "/dedup-check",
+        "gate": null
+      }
+    ],
+    "compliance": [
+      {
+        "tier": 2,
+        "command": "/compliance-pack",
+        "gate": null
+      }
+    ],
+    "security": [
+      {
+        "tier": 2,
+        "command": "/compliance-pack",
+        "gate": null
+      }
+    ],
+    "pdf report": [
+      {
+        "tier": 2,
+        "command": "/report-pdf",
+        "gate": null
+      }
+    ],
+    "generate report": [
+      {
+        "tier": 2,
+        "command": "/report-pdf",
+        "gate": null
+      }
+    ],
+    "email": [
+      {
+        "tier": 2,
+        "command": "/mail",
+        "gate": null
+      }
+    ],
+    "compose": [
+      {
+        "tier": 2,
+        "command": "/mail",
+        "gate": null
+      }
+    ],
+    "swift async": [
+      {
+        "tier": 2,
+        "command": "/swift:async-troubleshoot",
+        "gate": null
+      }
+    ],
+    "await": [
+      {
+        "tier": 2,
+        "command": "/swift:async-troubleshoot",
+        "gate": null
+      }
+    ],
+    "mainactor": [
+      {
+        "tier": 2,
+        "command": "/swift:async-troubleshoot",
+        "gate": null
+      }
+    ],
+    "swift memory": [
+      {
+        "tier": 2,
+        "command": "/swift:debug-memory",
+        "gate": null
+      }
+    ],
+    "leaks": [
+      {
+        "tier": 2,
+        "command": "/swift:debug-memory",
+        "gate": null
+      }
+    ],
+    "instruments": [
+      {
+        "tier": 2,
+        "command": "/swift:debug-memory",
+        "gate": null
+      }
+    ],
+    "app store": [
+      {
+        "tier": 2,
+        "command": "/swift:app-store-prep",
+        "gate": null
+      }
+    ],
+    "submission": [
+      {
+        "tier": 2,
+        "command": "/swift:app-store-prep",
+        "gate": null
+      }
+    ],
+    "review": [
+      {
+        "tier": 2,
+        "command": "/swift:app-store-prep",
+        "gate": null
+      }
+    ],
+    "feature priority": [
+      {
+        "tier": 2,
+        "command": "/pm:feature-prioritize",
+        "gate": null
+      }
+    ],
+    "rice": [
+      {
+        "tier": 2,
+        "command": "/pm:feature-prioritize",
+        "gate": null
+      }
+    ],
+    "scoring": [
+      {
+        "tier": 2,
+        "command": "/pm:feature-prioritize",
+        "gate": null
+      }
+    ],
+    "roadmap": [
+      {
+        "tier": 2,
+        "command": "/pm:roadmap-build",
+        "gate": null
+      }
+    ],
+    "product roadmap": [
+      {
+        "tier": 2,
+        "command": "/pm:roadmap-build",
+        "gate": null
+      }
+    ],
+    "email forensic": [
+      {
+        "tier": 2,
+        "command": "/email:forensic-workflow",
+        "gate": null
+      }
+    ],
+    "investigation": [
+      {
+        "tier": 2,
+        "command": "/email:forensic-workflow",
+        "gate": null
+      }
+    ],
+    "email metadata": [
+      {
+        "tier": 2,
+        "command": "/email:metadata-extract",
+        "gate": null
+      }
+    ],
+    "headers": [
+      {
+        "tier": 2,
+        "command": "/email:metadata-extract",
+        "gate": null
+      }
+    ],
+    "email compliance": [
+      {
+        "tier": 2,
+        "command": "/email:compliance-report",
+        "gate": null
+      }
+    ],
+    "slack bot": [
+      {
+        "tier": 2,
+        "command": "/bot:slack-debug",
+        "gate": null
+      }
+    ],
+    "slack debug": [
+      {
+        "tier": 2,
+        "command": "/bot:slack-debug",
+        "gate": null
+      }
+    ],
+    "telegram bot": [
+      {
+        "tier": 2,
+        "command": "/bot:telegram-debug",
+        "gate": null
+      }
+    ],
+    "telegram debug": [
+      {
+        "tier": 2,
+        "command": "/bot:telegram-debug",
+        "gate": null
+      }
+    ],
+    "chrome extension": [
+      {
+        "tier": 2,
+        "command": "/chrome:extension-debug",
+        "gate": null
+      }
+    ],
+    "extension debug": [
+      {
+        "tier": 2,
+        "command": "/chrome:extension-debug",
+        "gate": null
+      }
+    ],
+    "cloudflare worker": [
+      {
+        "tier": 2,
+        "command": "/deploy:cloudflare-worker",
+        "gate": null
+      }
+    ],
+    "cf deploy": [
+      {
+        "tier": 2,
+        "command": "/deploy:cloudflare-worker",
+        "gate": null
+      }
+    ],
+    "hrv": [
+      {
+        "tier": 2,
+        "command": "/neuro:daily-check",
+        "gate": null
+      }
+    ],
+    "stress": [
+      {
+        "tier": 2,
+        "command": "/neuro:daily-check",
+        "gate": null
+      }
+    ],
+    "energy": [
+      {
+        "tier": 2,
+        "command": "/neuro:daily-check",
+        "gate": null
+      }
+    ],
+    "neuro": [
+      {
+        "tier": 2,
+        "command": "/neuro:daily-check",
+        "gate": null
+      }
+    ],
+    "weekly review": [
+      {
+        "tier": 2,
+        "command": "/weekly-ops-review",
+        "gate": null
+      }
+    ],
+    "ops review": [
+      {
+        "tier": 2,
+        "command": "/weekly-ops-review",
+        "gate": null
+      }
+    ],
+    "code review": [
+      {
+        "tier": 2,
+        "command": "/agent:code-review",
+        "gate": null
+      }
+    ],
+    "review code": [
+      {
+        "tier": 2,
+        "command": "/agent:code-review",
+        "gate": null
+      }
+    ],
+    "pr review": [
+      {
+        "tier": 2,
+        "command": "/agent:code-review",
+        "gate": null
+      }
+    ],
+    "analyze project": [
+      {
+        "tier": 2,
+        "command": "/agent:project-analyzer",
+        "gate": null
+      }
+    ],
+    "project structure": [
+      {
+        "tier": 2,
+        "command": "/agent:project-analyzer",
+        "gate": null
+      }
+    ],
+    "deploy pipeline": [
+      {
+        "tier": 2,
+        "command": "/agent:deploy-pipeline",
+        "gate": null
+      }
+    ],
+    "ci/cd": [
+      {
+        "tier": 2,
+        "command": "/agent:deploy-pipeline",
+        "gate": null
+      }
+    ],
+    "create skill": [
+      {
+        "tier": 3,
+        "command": "/make-skill",
+        "gate": null
+      }
+    ],
+    "new skill": [
+      {
+        "tier": 3,
+        "command": "/make-skill",
+        "gate": null
+      }
+    ],
+    "skill list": [
+      {
+        "tier": 3,
+        "command": "/SKILL-INDEX",
+        "gate": null
+      }
+    ],
+    "all skills": [
+      {
+        "tier": 3,
+        "command": "/SKILL-INDEX",
+        "gate": null
+      }
+    ],
+    "mcp servers": [
+      {
+        "tier": 3,
+        "command": "/mcp:recommended-servers",
+        "gate": null
+      }
+    ],
+    "recommended mcp": [
+      {
+        "tier": 3,
+        "command": "/mcp:recommended-servers",
+        "gate": null
+      }
+    ]
+  }
+}

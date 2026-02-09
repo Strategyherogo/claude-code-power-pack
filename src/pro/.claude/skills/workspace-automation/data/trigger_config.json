@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "tier1_blocking": true,
+  "tier2_suggest": true,
+  "tier3_convenience": true,
+  "thresholds": {
+    "min_message_length": 30,
+    "min_keywords": 2
+  },
+  "disabled_skills": []
+}
