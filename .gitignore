@@ -1,13 +1,44 @@
-.DS_Store
+# Secrets & credentials
 .env
 .env.*
+*.pem
+*.key
+credentials.json
+service-account*.json
+token.json
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+*.egg-info/
+
+# Node
 node_modules/
+npm-debug.log*
+
+# Swift / Xcode
 .build/
 DerivedData/
-build/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Build output
 dist/
-*.log
-.vscode/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
 .idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
