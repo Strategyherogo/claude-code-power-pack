@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Power Pack — 151 Skills for Claude Code</title>
+    <meta name="description" content="151 battle-tested skills, lifecycle hooks, coding rules, and session automation for Claude Code. Open source, free to use.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-primary: #0a0d14;
+            --bg-elevated: #0f131c;
+            --bg-surface: #161b28;
+            --bg-hover: #1e2536;
+            --bg-active: #252d40;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.45);
+            --accent: #d97706;
+            --accent-soft: rgba(217, 119, 6, 0.15);
+            --accent-glow: rgba(217, 119, 6, 0.3);
+            --accent-2: #3b82f6;
+            --accent-2-soft: rgba(59, 130, 246, 0.15);
+            --success: #10b981;
+            --success-soft: rgba(16, 185, 129, 0.15);
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --purple: #8b5cf6;
+            --purple-soft: rgba(139, 92, 246, 0.15);
+            --cyan: #06b6d4;
+            --cyan-soft: rgba(6, 182, 212, 0.15);
+            --pink: #ec4899;
+            --pink-soft: rgba(236, 72, 153, 0.15);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+        /* === NAV === */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 13, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 0;
+        }
+        nav .container { display: flex; align-items: center; justify-content: space-between; }
+        nav .logo { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        nav .logo span { color: var(--accent); }
+        nav .nav-links { display: flex; gap: 28px; align-items: center; }
+        nav .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav .nav-links a:hover { color: var(--text-primary); }
+        .btn-github {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--bg-surface); border: 1px solid var(--border);
+            color: var(--text-primary); padding: 8px 18px; border-radius: var(--radius-sm);
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-github:hover { background: var(--bg-hover); border-color: var(--border-hover); }
+        .btn-github svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* === HERO === */
+        .hero {
+            padding: 160px 0 100px; text-align: center;
+            background: radial-gradient(ellipse at top, rgba(217, 119, 6, 0.06) 0%, transparent 60%);
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-soft); border: 1px solid rgba(217, 119, 6, 0.25);
+            color: var(--accent); padding: 6px 16px; border-radius: 100px;
+            font-size: 0.85rem; font-weight: 600; margin-bottom: 28px;
+        }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.15; margin-bottom: 20px; letter-spacing: -0.02em; }
+        .hero h1 .highlight { color: var(--accent); }
+        .hero .subtitle {
+            font-size: 1.2rem; color: var(--text-secondary); max-width: 620px;
+            margin: 0 auto 44px; line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex; justify-content: center; gap: 48px; margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--accent); display: block; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .hero-install {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 20px 28px;
+            display: inline-flex; align-items: center; gap: 16px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.2s; position: relative;
+        }
+        .hero-install:hover { border-color: var(--accent); background: var(--bg-hover); }
+        .hero-install .prompt { color: var(--accent); }
+        .hero-install .cmd { color: var(--text-primary); }
+        .hero-install .copy-hint {
+            font-family: 'Inter', sans-serif; font-size: 0.75rem;
+            color: var(--text-muted); position: absolute; right: 14px; top: -8px;
+            background: var(--bg-surface); padding: 0 6px;
+        }
+        .hero-install.copied .copy-hint { color: var(--success); }
+
+        /* === SECTION COMMON === */
+        section { padding: 100px 0; }
+        .section-label {
+            font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--accent); margin-bottom: 12px;
+        }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.01em; }
+        .section-subtitle { font-size: 1.05rem; color: var(--text-secondary); max-width: 560px; margin-bottom: 48px; }
+
+        /* === SKILLS SECTION === */
+        .skills-section { background: var(--bg-elevated); }
+
+        .skill-tabs {
+            display: flex; gap: 4px; margin-bottom: 32px;
+            background: var(--bg-primary); border-radius: var(--radius);
+            padding: 4px; overflow-x: auto; flex-wrap: wrap;
+        }
+        .skill-tab {
+            padding: 10px 20px; border-radius: var(--radius-sm);
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            color: var(--text-muted); background: transparent; border: none;
+            transition: all 0.2s; white-space: nowrap;
+        }
+        .skill-tab:hover { color: var(--text-secondary); background: var(--bg-surface); }
+        .skill-tab.active { color: var(--text-primary); background: var(--bg-surface); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+        .skill-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+        }
+        .skill-card {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: var(--radius-sm); padding: 16px 18px;
+            transition: all 0.2s; cursor: default;
+        }
+        .skill-card:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+        .skill-name {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+            font-weight: 500; margin-bottom: 6px;
+        }
+        .skill-name .slash { color: var(--accent); }
+        .skill-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+        .skill-panel { display: none; }
+        .skill-panel.active { display: block; }
+
+        .skills-count {
+            text-align: center; margin-top: 32px; padding: 16px;
+            color: var(--text-muted); font-size: 0.9rem;
+        }
+        .skills-count strong { color: var(--text-secondary); }
+
+        /* === HOW IT WORKS === */
+        .flow-diagram {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0; margin: 48px 0; flex-wrap: wrap;
+        }
+        .flow-node {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px 28px;
+            text-align: center; min-width: 180px;
+            transition: all 0.3s;
+        }
+        .flow-node:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .flow-icon { font-size: 1.8rem; margin-bottom: 10px; }
+        .flow-label { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+        .flow-detail { font-size: 0.8rem; color: var(--text-muted); }
+        .flow-arrow {
+            color: var(--accent); font-size: 1.4rem; padding: 0 12px;
+            animation: pulseRight 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseRight {
+            0%, 100% { opacity: 0.4; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(4px); }
+        }
+
+        /* === HOOKS === */
+        .hooks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .hook-card {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 28px; transition: all 0.2s;
+        }
+        .hook-card:hover { border-color: var(--border-hover); }
+        .hook-event {
+            display: inline-block; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            padding: 4px 10px; border-radius: 4px; margin-bottom: 14px;
+        }
+        .hook-event.start { background: var(--success-soft); color: var(--success); }
+        .hook-event.guard { background: var(--accent-soft); color: var(--accent); }
+        .hook-event.end { background: var(--accent-2-soft); color: var(--accent-2); }
+        .hook-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
+        .hook-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* === RULES === */
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .rule-card {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px; text-align: center;
+            transition: all 0.2s;
+        }
+        .rule-card:hover { border-color: var(--border-hover); }
+        .rule-icon { font-size: 2rem; margin-bottom: 12px; }
+        .rule-lang { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+        .rule-topics { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* === INSTALL === */
+        .install-section { background: var(--bg-elevated); }
+        .install-block {
+            background: var(--bg-primary); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden; max-width: 700px;
+        }
+        .install-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 18px; border-bottom: 1px solid var(--border);
+        }
+        .install-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .install-dot.red { background: #ff5f57; }
+        .install-dot.yellow { background: #febc2e; }
+        .install-dot.green { background: #28c840; }
+        .install-title { font-size: 0.8rem; color: var(--text-muted); margin-left: 8px; font-family: 'JetBrains Mono', monospace; }
+        .install-body {
+            padding: 24px; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem; line-height: 2;
+        }
+        .install-body .comment { color: var(--text-muted); }
+        .install-body .prompt { color: var(--success); }
+        .install-body .cmd { color: var(--text-primary); }
+
+        .install-steps {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px; margin-top: 48px;
+        }
+        .install-step {
+            display: flex; gap: 16px; align-items: flex-start;
+        }
+        .step-num {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--accent-soft); color: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+        }
+        .step-text { font-size: 0.9rem; color: var(--text-secondary); }
+        .step-text strong { color: var(--text-primary); display: block; margin-bottom: 2px; }
+
+        /* === CTA === */
+        .cta-section { text-align: center; padding: 120px 0; position: relative; }
+        .cta-section::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at bottom, rgba(217, 119, 6, 0.06) 0%, transparent 60%);
+        }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--accent); color: #000; padding: 16px 36px;
+            border-radius: var(--radius-sm); text-decoration: none;
+            font-size: 1.05rem; font-weight: 700; transition: all 0.2s;
+            position: relative; z-index: 1;
+        }
+        .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px var(--accent-glow); }
+        .btn-primary svg { width: 20px; height: 20px; fill: currentColor; }
+        .cta-note { color: var(--text-muted); font-size: 0.85rem; margin-top: 16px; position: relative; z-index: 1; }
+
+        /* === FOOTER === */
+        footer {
+            border-top: 1px solid var(--border); padding: 32px 0;
+            text-align: center; color: var(--text-muted); font-size: 0.85rem;
+        }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--text-primary); }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { gap: 24px; }
+            .stat-number { font-size: 1.6rem; }
+            .flow-diagram { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); padding: 8px 0; }
+            nav .nav-links { gap: 16px; }
+            nav .nav-links a { font-size: 0.8rem; }
+            .skill-tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.8rem; }
+            .hero-install { padding: 14px 18px; font-size: 0.8rem; flex-wrap: wrap; }
+            section { padding: 64px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="container">
+        <div class="logo"><span>></span> Power Pack</div>
+        <div class="nav-links">
+            <a href="#skills">Skills</a>
+            <a href="#hooks">Hooks</a>
+            <a href="#rules">Rules</a>
+            <a href="#install">Install</a>
+            <a href="https://github.com/Strategyherogo/claude-code-power-pack" target="_blank" class="btn-github">
+                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">Open Source &mdash; MIT License</div>
+        <h1>151 Skills for<br><span class="highlight">Claude Code</span></h1>
+        <p class="subtitle">Battle-tested workflows, lifecycle hooks, coding rules, and session automation. Built across 24 real projects. Install in 30 seconds.</p>
+
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-number">151</span><span class="stat-label">Skills</span></div>
+            <div class="stat"><span class="stat-number">3</span><span class="stat-label">Hooks</span></div>
+            <div class="stat"><span class="stat-number">4</span><span class="stat-label">Rule Sets</span></div>
+            <div class="stat"><span class="stat-number">0</span><span class="stat-label">Dependencies</span></div>
+        </div>
+
+        <div class="hero-install" onclick="copyInstall(this)">
+            <span class="copy-hint">click to copy</span>
+            <span class="prompt">$</span>
+            <span class="cmd">git clone https://github.com/Strategyherogo/claude-code-power-pack.git</span>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+    <div class="container">
+        <div class="section-label">Skills</div>
+        <div class="section-title">Every workflow you need</div>
+        <div class="section-subtitle">Type <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.9em">/commands:skill-name</code> and Claude follows a structured workflow. No setup required.</div>
+
+        <div class="skill-tabs">
+            <button class="skill-tab active" data-tab="dev">Development</button>
+            <button class="skill-tab" data-tab="git">Git & Deploy</button>
+            <button class="skill-tab" data-tab="session">Session</button>
+            <button class="skill-tab" data-tab="content">Content</button>
+            <button class="skill-tab" data-tab="sales">Sales</button>
+            <button class="skill-tab" data-tab="pm">PM & Ops</button>
+            <button class="skill-tab" data-tab="agents">Agents</button>
+            <button class="skill-tab" data-tab="domain">Domain</button>
+        </div>
+
+        <!-- DEV -->
+        <div class="skill-panel active" id="panel-dev">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>systematic-debug</div><div class="skill-desc">Multi-step debugging with hypothesis generation, evidence gathering, and root cause isolation</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>tdd</div><div class="skill-desc">Test-driven development — write tests first, then implementation</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>build-test</div><div class="skill-desc">Verify build process and artifacts compile correctly</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>edge-test</div><div class="skill-desc">Test boundary conditions, null cases, and edge scenarios</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>root-trace</div><div class="skill-desc">Trace an error to its root cause through the call stack</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>scaffold</div><div class="skill-desc">Generate project boilerplate — files, folders, config</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>api-test</div><div class="skill-desc">Hit endpoints, inspect responses, validate schemas</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>perf-test</div><div class="skill-desc">Performance testing and benchmarking</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>docker</div><div class="skill-desc">Dockerfile generation and container management</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>migration</div><div class="skill-desc">Database migration helper — schema changes, rollbacks</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>api-docs</div><div class="skill-desc">Generate API documentation from code</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>db-query</div><div class="skill-desc">Database query assistance and optimization</div></div>
+            </div>
+        </div>
+
+        <!-- GIT -->
+        <div class="skill-panel" id="panel-git">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>git-flow</div><div class="skill-desc">Feature, release, and hotfix branch management</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>deploy-verify</div><div class="skill-desc">Comprehensive pre-deployment verification checklist</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>quick-deploy</div><div class="skill-desc">Rapid deployment with minimal verification gates</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>commit-msg</div><div class="skill-desc">Conventional commit message generation</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>changelog</div><div class="skill-desc">Maintain and update CHANGELOG from git history</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>release-notes</div><div class="skill-desc">Auto-generate release notes from commits</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>git-cleanup</div><div class="skill-desc">Prune merged branches across all projects</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>dependency-audit</div><div class="skill-desc">Check for outdated and vulnerable packages</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>secret-scan</div><div class="skill-desc">Find leaked secrets in code and git history</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>env-sync</div><div class="skill-desc">Synchronize environment variables across environments</div></div>
+            </div>
+        </div>
+
+        <!-- SESSION -->
+        <div class="skill-panel" id="panel-session">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>cs</div><div class="skill-desc">Session start — briefing with git state, pending tasks, context</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>save</div><div class="skill-desc">Save current context for seamless session handoff</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>restore</div><div class="skill-desc">Resume from the last context save</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>handoff</div><div class="skill-desc">Structured handoff document for next session</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>wrap</div><div class="skill-desc">End-of-session wrap-up with summary and next steps</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>focus</div><div class="skill-desc">Enter deep work mode with clear objectives</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>session-retro</div><div class="skill-desc">Analyze session patterns, extract lessons, suggest improvements</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>morning-check</div><div class="skill-desc">Quick health check — git, auth, dirty projects, unsaved work</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>standup</div><div class="skill-desc">Generate daily standup summary from recent activity</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>reflect</div><div class="skill-desc">Reflect on decisions and extract learnings</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>checkpoint</div><div class="skill-desc">Mid-task checkpoint — save progress without ending session</div></div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="skill-panel" id="panel-content">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:blog</div><div class="skill-desc">Full blog post creation workflow</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:quick-blog</div><div class="skill-desc">Rapid blog post in under 15 minutes</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:newsletter</div><div class="skill-desc">Create engaging newsletter content</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>linkedin-post</div><div class="skill-desc">Create LinkedIn posts with hooks and CTAs</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>linkedin-carousel</div><div class="skill-desc">HTML slides → screenshot → PDF carousel</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:readme</div><div class="skill-desc">Create effective README files</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:tutorial</div><div class="skill-desc">Create step-by-step technical tutorials</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:video-script</div><div class="skill-desc">Scripts for video content</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>c2c:conference-talk</div><div class="skill-desc">Conference talk proposals and slide outlines</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>podcast-prep</div><div class="skill-desc">Podcast episode prep and show notes</div></div>
+            </div>
+        </div>
+
+        <!-- SALES -->
+        <div class="skill-panel" id="panel-sales">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:account-research</div><div class="skill-desc">Research a company — get actionable sales intel</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:call-prep</div><div class="skill-desc">Prepare for calls with context, attendees, and agenda</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:call-summary</div><div class="skill-desc">Extract action items from call notes or transcripts</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:forecast</div><div class="skill-desc">Weighted forecast with best/likely/worst scenarios</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:pipeline-review</div><div class="skill-desc">Analyze pipeline health — prioritize and flag risks</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:competitive-intel</div><div class="skill-desc">Research competitors and build battlecards</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:draft-outreach</div><div class="skill-desc">Research prospect, draft personalized outreach</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>sales:create-asset</div><div class="skill-desc">Generate landing pages, decks, one-pagers from deal context</div></div>
+            </div>
+        </div>
+
+        <!-- PM -->
+        <div class="skill-panel" id="panel-pm">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>pm:feature-prioritize</div><div class="skill-desc">RICE scoring and feature prioritization</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>pm:roadmap-build</div><div class="skill-desc">Create strategic product roadmaps</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>brainstorm</div><div class="skill-desc">Structured idea generation and exploration</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>write-plan</div><div class="skill-desc">Detailed implementation plan with milestones</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>decision-log</div><div class="skill-desc">Architecture Decision Records (ADR) management</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>infra-health</div><div class="skill-desc">Infrastructure status and monitoring</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>log-errors</div><div class="skill-desc">Analyze and categorize error logs</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>verify</div><div class="skill-desc">Comprehensive verification before proceeding</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>organize</div><div class="skill-desc">Organize files and project structure</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>workspace-audit</div><div class="skill-desc">Audit and clean up workspace</div></div>
+            </div>
+        </div>
+
+        <!-- AGENTS -->
+        <div class="skill-panel" id="panel-agents">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>agent:code-review</div><div class="skill-desc">Multi-agent automated code review with quality scoring</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>agent:deploy-pipeline</div><div class="skill-desc">End-to-end deployment with parallel validation agents</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>agent:project-analyzer</div><div class="skill-desc">Comprehensive project structure and state analysis</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>parallel-agents</div><div class="skill-desc">Coordinate multiple Claude agents for complex tasks</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>orchestrate</div><div class="skill-desc">Auto-detect task type and run the right skill</div></div>
+            </div>
+        </div>
+
+        <!-- DOMAIN -->
+        <div class="skill-panel" id="panel-domain">
+            <div class="skill-grid">
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>swift:async-troubleshoot</div><div class="skill-desc">Diagnose Swift async/await and MainActor issues</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>swift:debug-memory</div><div class="skill-desc">Detect and fix memory leaks in Swift/iOS</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>swift:app-store-prep</div><div class="skill-desc">App Store submission preparation checklist</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>swift:localize</div><div class="skill-desc">App localization workflow for iOS/macOS</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>mcp:build</div><div class="skill-desc">Create new MCP (Model Context Protocol) servers</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>chrome:extension-debug</div><div class="skill-desc">Debug Chrome extensions</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>bot:slack-debug</div><div class="skill-desc">Troubleshoot Slack bot integrations</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>compliance-pack</div><div class="skill-desc">Generate compliance documentation</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>cred-discover</div><div class="skill-desc">Discover credentials for external services</div></div>
+                <div class="skill-card"><div class="skill-name"><span class="slash">/</span>make-skill</div><div class="skill-desc">Create new custom skills from scratch</div></div>
+            </div>
+        </div>
+
+        <div class="skills-count">Showing highlights. <strong>151 skills total</strong> across all categories.</div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+    <div class="container">
+        <div class="section-label">How It Works</div>
+        <div class="section-title">Just markdown files</div>
+        <div class="section-subtitle">Skills are structured prompts in <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.9em">.claude/commands/</code>. Claude reads them as workflow instructions. No build step, no runtime, no dependencies.</div>
+
+        <div class="flow-diagram">
+            <div class="flow-node">
+                <div class="flow-icon">&#9000;</div>
+                <div class="flow-label">You type a keyword</div>
+                <div class="flow-detail">"debug this error"</div>
+            </div>
+            <div class="flow-arrow">&#8594;</div>
+            <div class="flow-node">
+                <div class="flow-icon">&#9881;</div>
+                <div class="flow-label">MASTER.md maps it</div>
+                <div class="flow-detail">debug &#8594; /systematic-debug</div>
+            </div>
+            <div class="flow-arrow">&#8594;</div>
+            <div class="flow-node">
+                <div class="flow-icon">&#9889;</div>
+                <div class="flow-label">Claude runs the skill</div>
+                <div class="flow-detail">Structured workflow executes</div>
+            </div>
+        </div>
+
+        <div style="text-align:center; color:var(--text-muted); font-size:0.9rem; max-width:500px; margin:0 auto;">
+            Edit any skill to match your workflow. Create new ones with <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.9em">/make-skill</code> or just drop a markdown file in <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.9em">.claude/commands/</code>.
+        </div>
+    </div>
+</section>
+
+<!-- HOOKS -->
+<section class="skills-section" id="hooks">
+    <div class="container">
+        <div class="section-label">Lifecycle Hooks</div>
+        <div class="section-title">Automatic behaviors</div>
+        <div class="section-subtitle">Shell scripts that fire on Claude Code events. Catch issues before they cost you time.</div>
+
+        <div class="hooks-grid">
+            <div class="hook-card">
+                <div class="hook-event start">Session Start</div>
+                <div class="hook-name">startup-parallel.sh</div>
+                <div class="hook-desc">Checks GitHub auth, git state, and uncommitted files when you start a session. Only speaks up if something is wrong.</div>
+            </div>
+            <div class="hook-card">
+                <div class="hook-event guard">Pre-Deploy Guard</div>
+                <div class="hook-name">pre-deploy-check.sh</div>
+                <div class="hook-desc">Intercepts deploy, publish, and push commands. Verifies credentials exist before execution. Covers npm, Cloudflare, App Store, Chrome Web Store, DigitalOcean, Atlassian.</div>
+            </div>
+            <div class="hook-card">
+                <div class="hook-event end">Session End</div>
+                <div class="hook-name">session-end-save.sh</div>
+                <div class="hook-desc">Auto-saves your context — branch, recent commits, modified files — so the next session picks up seamlessly. No manual save needed.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+    <div class="container">
+        <div class="section-label">Coding Rules</div>
+        <div class="section-title">Standards Claude follows automatically</div>
+        <div class="section-subtitle">Drop a rule file in <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.9em">.claude/rules/</code> and Claude follows it when writing code. No configuration needed.</div>
+
+        <div class="rules-grid">
+            <div class="rule-card">
+                <div class="rule-icon">&#128736;</div>
+                <div class="rule-lang">Common</div>
+                <div class="rule-topics">Git workflow, code quality, testing, security, performance, documentation</div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-icon">&#128013;</div>
+                <div class="rule-lang">Python</div>
+                <div class="rule-topics">PEP 8, type hints, pytest, async patterns, dataclasses, pathlib</div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-icon">&#128312;</div>
+                <div class="rule-lang">TypeScript</div>
+                <div class="rule-topics">Strict mode, no any, discriminated unions, error handling, imports</div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-icon">&#128038;</div>
+                <div class="rule-lang">Swift</div>
+                <div class="rule-topics">@MainActor, actors, Sendable, SwiftUI patterns, localization, memory</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INSTALL -->
+<section class="install-section" id="install">
+    <div class="container">
+        <div class="section-label">Get Started</div>
+        <div class="section-title">Install in 30 seconds</div>
+        <div class="section-subtitle">Clone, run the installer, start using skills.</div>
+
+        <div class="install-block">
+            <div class="install-header">
+                <div class="install-dot red"></div>
+                <div class="install-dot yellow"></div>
+                <div class="install-dot green"></div>
+                <span class="install-title">terminal</span>
+            </div>
+            <div class="install-body">
+                <span class="comment"># Clone the power pack</span><br>
+                <span class="prompt">$</span> <span class="cmd">git clone https://github.com/Strategyherogo/claude-code-power-pack.git</span><br><br>
+                <span class="comment"># Go to your project</span><br>
+                <span class="prompt">$</span> <span class="cmd">cd your-project</span><br><br>
+                <span class="comment"># Install skills, rules, hooks, and config</span><br>
+                <span class="prompt">$</span> <span class="cmd">bash ~/claude-code-power-pack/src/pro/install.sh</span><br><br>
+                <span class="comment"># Start Claude Code and try it</span><br>
+                <span class="prompt">$</span> <span class="cmd">claude</span><br>
+                <span class="prompt">></span> <span class="cmd">/commands:cs</span>
+            </div>
+        </div>
+
+        <div class="install-steps">
+            <div class="install-step">
+                <div class="step-num">1</div>
+                <div class="step-text"><strong>Skills copied</strong>151 markdown files to .claude/commands/ (skips existing)</div>
+            </div>
+            <div class="install-step">
+                <div class="step-num">2</div>
+                <div class="step-text"><strong>Rules applied</strong>4 coding rule sets for Python, TypeScript, Swift, and common patterns</div>
+            </div>
+            <div class="install-step">
+                <div class="step-num">3</div>
+                <div class="step-text"><strong>Hooks ready</strong>3 lifecycle scripts — wire them in settings.json to activate</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="section-title" style="font-size:2.2rem; margin-bottom:24px;">Stop re-explaining.<br>Start shipping.</div>
+        <p style="color:var(--text-secondary); max-width:480px; margin:0 auto 36px; font-size:1.05rem;">Every skill was built during real work — not hypothetical templates. The system grows itself through session retros.</p>
+        <a href="https://github.com/Strategyherogo/claude-code-power-pack" target="_blank" class="btn-primary">
+            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            View on GitHub
+        </a>
+        <p class="cta-note">MIT License &mdash; Free and open source</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        Built entirely with <a href="https://claude.ai/claude-code" target="_blank">Claude Code</a> &mdash;
+        <a href="https://github.com/Strategyherogo/claude-code-power-pack" target="_blank">GitHub</a> &middot;
+        <a href="https://community.anthropic.com" target="_blank">Community</a>
+    </div>
+</footer>
+
+<script>
+    // Tab switching
+    document.querySelectorAll('.skill-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.skill-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Copy install command
+    function copyInstall(el) {
+        navigator.clipboard.writeText('git clone https://github.com/Strategyherogo/claude-code-power-pack.git');
+        el.classList.add('copied');
+        el.querySelector('.copy-hint').textContent = 'copied!';
+        setTimeout(() => {
+            el.classList.remove('copied');
+            el.querySelector('.copy-hint').textContent = 'click to copy';
+        }, 2000);
+    }
+
+    // Smooth reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(section);
+    });
+
+    // Hero always visible
+    document.querySelector('.hero').style.opacity = '1';
+    document.querySelector('.hero').style.transform = 'translateY(0)';
+</script>
+
+</body>
+</html>
