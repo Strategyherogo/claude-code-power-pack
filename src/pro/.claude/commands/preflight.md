@@ -159,6 +159,50 @@ After running all checks, output a summary:
 - **GO WITH CAVEAT:** [limitation] — plan fallback approach
 ```
 
+### 5. Security Pre-Deploy Check (< 2 min)
+Critical security issues to catch BEFORE deployment. Based on production incidents.
+
+```bash
+echo "=== SECURITY CHECK ==="
+
+# Check for debug mode in production code
+grep -rn "debug\s*=\s*True" src/ app/ 2>/dev/null && echo "❌ CRITICAL: debug=True found" || echo "✅ No debug mode"
+grep -rn "DEBUG\s*=\s*true" . --include="*.env*" 2>/dev/null && echo "⚠️  Debug in env files"
+
+# Check for hardcoded secrets
+grep -rn "password\s*=\s*['\"]" src/ app/ 2>/dev/null && echo "❌ CRITICAL: Hardcoded password"
+grep -rn "api[_-]key\s*=\s*['\"]" src/ app/ 2>/dev/null && echo "❌ CRITICAL: Hardcoded API key"
+grep -rn "token\s*=\s*['\"]" src/ app/ 2>/dev/null && echo "⚠️  Hardcoded token found"
+
+# Check for exposed error details
+grep -rn "traceback\.print_exc\|console\.error" src/ app/ 2>/dev/null && echo "⚠️  Error details may leak"
+
+# Check for production config
+[ -f ".env.production" ] && echo "✅ Production env file exists" || echo "ℹ️  No .env.production"
+
+# Verify .gitignore has secrets
+grep -q "\.env" .gitignore 2>/dev/null && echo "✅ .env in gitignore" || echo "❌ CRITICAL: .env not ignored"
+grep -q "secrets\|credentials\|keys" .gitignore 2>/dev/null && echo "✅ Secrets pattern in gitignore"
+```
+
+**Critical Security Checklist:**
+```
+□ No debug=True in production code
+□ No hardcoded API keys, tokens, passwords
+□ No exposed tracebacks or detailed errors to end users
+□ Secrets files in .gitignore
+□ Environment-specific configs exist (.env.production)
+□ CORS properly configured (not allow all)
+□ Input validation on all endpoints
+□ Rate limiting configured
+```
+
+**Fast Security Scan Command:**
+```bash
+# One-liner security scan
+grep -rn --include="*.py" --include="*.js" --include="*.ts" -E "(debug\s*=\s*True|password\s*=\s*['\"]|api[_-]?key\s*=\s*['\"])" src/ || echo "✅ Quick scan clean"
+```
+
 ---
 
 ## Known Gotchas (from past sessions)
@@ -174,6 +218,8 @@ These caused wasted sessions. Check for them explicitly:
 | Monday MCP package broken | Monday.com | Use direct GraphQL via urllib |
 | `screencapture` can't do native windows programmatically without permissions | macOS | Use `screencapture -l <windowID>` |
 | Bundle ID mismatch | App Store | Verify PRODUCT_BUNDLE_IDENTIFIER matches ASC |
+| `INFOPLIST_KEY_*` silently ignores third-party keys | XcodeGen/Xcode | Use `postBuildScripts` + PlistBuddy for AdMob, Firebase, etc. |
+| Apple 2FA blocks browser automation for ASC | App Store Connect | Always plan manual workflow; automation can't handle Apple login |
 
 ---
 

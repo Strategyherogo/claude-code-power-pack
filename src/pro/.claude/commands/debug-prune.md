@@ -13,6 +13,10 @@ Clean up growing directories in ~/.claude/ to prevent disk bloat.
 | `~/.claude/conversation-logs/*-raw.jsonl` | 14 days | ~5MB/day |
 | `~/.claude/session-env/` | 7 days | minimal |
 | `/tmp/claude-sessions/` | 1 day | minimal |
+| `~/ClaudeCodeWorkspace/context-saves/*.md` | 14 days | ~7KB/day |
+| `~/ClaudeCodeWorkspace/logs/` | 7 days | ~5KB/day |
+
+**Exception:** Always keep `context-saves/.checkpoint-latest.md`.
 
 ## Workflow
 
@@ -42,6 +46,14 @@ echo "✓ session-env/ pruned (>7 days)"
 # Session lock files > 1 day
 find /tmp/claude-sessions/ -type f -mtime +1 -delete 2>/dev/null
 echo "✓ session locks pruned (>1 day)"
+
+# Workspace context-saves > 14 days (keep checkpoint-latest)
+find ~/ClaudeCodeWorkspace/context-saves/ -name "*.md" -not -name ".checkpoint-latest.md" -mtime +14 -delete 2>/dev/null
+echo "✓ context-saves/ pruned (>14 days)"
+
+# Workspace logs > 7 days
+find ~/ClaudeCodeWorkspace/logs/ -type f -mtime +7 -delete 2>/dev/null
+echo "✓ logs/ pruned (>7 days)"
 
 # After
 echo ""

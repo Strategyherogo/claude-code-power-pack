@@ -136,11 +136,40 @@ for locale in $SOURCE_LOCALE $TARGET_LOCALES; do
 done
 ```
 
+**Screenshot Strategy (CRITICAL for Apple Review):**
+
+Apple's unwritten rule: **Real UI > Marketing Composites**
+
+✅ **Approved Mix:**
+- Screenshots 1-2: Marketing polish (gradient backgrounds, phone frames, text overlays)
+- Screenshots 3-10: Real UI captures showing actual functionality
+
+❌ **Rejection Risk:**
+- All marketing screenshots (no real UI shown)
+- Generic stock photos instead of actual app interface
+- Misleading features not in the app
+
+**Why this matters:** Apple reviewers need to see your app actually works. Marketing screenshots are fine for first impressions, but the majority should demonstrate genuine functionality.
+
+**Implementation:**
+```bash
+# 1. Capture real UI first (80% of your screenshots)
+# - Simulator at correct resolution
+# - Show actual features working
+# - Different app states/screens
+
+# 2. Add 1-2 marketing screenshots (20%)
+# - Use tools like Figma/Sketch for frames
+# - Add gradient backgrounds
+# - Include compelling copy
+```
+
 **Tips:**
 - Show key features in each screenshot
 - Add text overlays with ImageMagick: `convert input.png -pointsize 48 -annotate +100+100 "Feature text" output.png`
-- No status bar clutter
+- No status bar clutter (show clean UI)
 - Consistent style across all screenshots
+- **First screenshot is most important** — it appears in search results
 
 ### URLs Required
 ```

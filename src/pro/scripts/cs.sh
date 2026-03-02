@@ -1,21 +1,10 @@
 #!/bin/bash
-# Claude Session Starter v2 — fast by default, flags for extras
-# Usage: cs          → instant start with suggested skill
-#        cs -r       → full review (cleanup + retro + priorities)
-#        cs -m       → morning checks first
-#        cs -s       → skill picker (fzf)
-#        cs -p       → plain (no skill)
-#        cs -h       → help
+# Claude Session Starter v4 — parallel + lean
+# Usage: cs [-r|-m|-s|-p|-h]
 
-CYAN='\033[0;36m'
-YELLOW='\033[1;33m'
-GREEN='\033[0;32m'
-DIM='\033[2m'
-NC='\033[0m'
+WS="$HOME/ClaudeCodeWorkspace"
 
-WORKSPACE="$HOME/ClaudeCodeWorkspace"
-
-# Parse flags
+# ── Parse mode ──
 MODE="auto"
 while getopts "rmsph" opt; do
     case $opt in
@@ -23,102 +12,74 @@ while getopts "rmsph" opt; do
         m) MODE="morning" ;;
         s) MODE="skill" ;;
         p) MODE="plain" ;;
-        h) echo "cs          Start with suggested skill (default)"
-           echo "cs -r       Full review (cleanup + retro + priorities)"
-           echo "cs -m       Morning checks + start"
-           echo "cs -s       Pick a skill (fzf)"
-           echo "cs -p       Plain start (no skill)"
+        h) cat <<'EOF'
+  cs       auto-start (evening=retro, morning=morning-check, else=briefing)
+  cs -r    full review
+  cs -m    morning checks
+  cs -s    skill picker
+  cs -p    plain start
+EOF
            exit 0 ;;
     esac
 done
+shift $((OPTIND-1))
 
-# ── Compact status (always shown, <1 sec) ──
-uncommitted=$(git -C "$WORKSPACE" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
-branch=$(git -C "$WORKSPACE" branch --show-current 2>/dev/null)
-last_save=$(ls -t "$WORKSPACE"/context-saves/*.md 2>/dev/null | head -1)
-if [ -n "$last_save" ]; then
-    save_name=$(basename "$last_save" .md | sed 's/^[0-9-]*-//')
-    save_age=$(( ($(date +%s) - $(stat -f%m "$last_save")) / 3600 ))
-    save_info="${save_name} (${save_age}h ago)"
+# ── Status line (parallel, no timing overhead) ──
+{
+    git -C "$WS" branch --show-current 2>/dev/null || echo "no branch"
+} > /tmp/cs-branch.$$ &
+
+{
+    git -C "$WS" status --porcelain 2>/dev/null | wc -l
+} > /tmp/cs-dirty.$$ &
+
+{
+    ls -t "$WS"/.claude/context-saves/*.md 2>/dev/null | head -1
+} > /tmp/cs-save.$$ &
+
+wait
+
+# Read results
+branch=$(<"/tmp/cs-branch.$$")
+dirty=$(<"/tmp/cs-dirty.$$")
+dirty=${dirty// /}
+last_save=$(<"/tmp/cs-save.$$")
+rm -f /tmp/cs-{branch,dirty,save}.$$
+
+# Calculate save age
+if [[ -n "$last_save" ]]; then
+    mins=$(( ($(date +%s) - $(stat -f%m "$last_save")) / 60 ))
+    if (( mins < 60 )); then
+        save="saved ${mins}m ago"
+    else
+        save="saved $(( mins / 60 ))h ago"
+    fi
 else
-    save_info="none"
+    save="no saves"
 fi
 
-echo ""
-echo -e "${DIM}──────────────────────────────────────────${NC}"
-echo -e "  ${GREEN}$branch${NC}  ${uncommitted} uncommitted  ${DIM}│${NC}  ${save_info}"
-echo -e "${DIM}──────────────────────────────────────────${NC}"
+printf '\n  %s  \033[2m|\033[0m  %s files  \033[2m|\033[0m  %s\n\n' "$branch" "$dirty" "$save"
 
-# ── Auto-detect morning on weekdays before 10am ──
-hour=$(date +%H)
-day=$(date +%u)  # 1=Mon, 7=Sun
-if [ "$MODE" = "auto" ] && [ "$hour" -lt 10 ] && [ "$day" -le 5 ]; then
-    MODE="morning"
-fi
+# ── Launch helper ──
+launch() { cd "$WS" && exec claude "$@"; }
 
+# ── Route ──
 case "$MODE" in
-    review)
-        echo ""
-        echo -e "${CYAN}── CLEANUP ──${NC}"
-        ~/.claude/scripts/cleanup.sh 2>/dev/null
-        echo ""
-        cd "$WORKSPACE" && exec claude "/commands:full-review"
-        ;;
-
-    morning)
-        echo ""
-        echo -e "${CYAN}── PACKAGES ──${NC}"
-        ~/.claude/scripts/daily-package-check.sh 2>/dev/null || echo "  (skipped)"
-        echo -e "${CYAN}── MONDAY ──${NC}"
-        ~/.claude/scripts/daily-monday-check.sh 2>/dev/null || echo "  (skipped)"
-        echo -e "${CYAN}── LOGS ──${NC}"
-        ~/.claude/scripts/log-stats.sh 2>/dev/null || echo "  (skipped)"
-        echo ""
-        cd "$WORKSPACE" && exec claude "/commands:morning-check"
-        ;;
-
+    review)  launch "/commands:full-review" ;;
+    morning) launch "/commands:morning-check" ;;
     skill)
-        skill=$(printf '%s\n' \
-            "/commands:full-review        │ Full review (cleanup+retro+priorities)" \
-            "/commands:focus              │ Deep work session" \
-            "/commands:jira-quick         │ Quick Jira operations" \
-            "/commands:systematic-debug   │ Debug workflow" \
-            "/commands:c2c:blog           │ Write blog post" \
-            "/commands:c2c:quick-blog     │ Quick blog post" \
-            "/commands:deploy-verify      │ Pre-deploy checklist" \
-            "/commands:quick-deploy       │ Fast deployment" \
-            "/commands:system-health      │ Service health check" \
-            "/commands:standup            │ Daily standup" \
-            "/commands:brainstorm         │ Ideation session" \
-            "/commands:reflect            │ Session reflection" \
-            "/commands:agent:code-review  │ Automated code review" \
-            "/commands:tdd                │ Test-driven development" \
-            "/commands:db-query           │ Database queries" \
-            "/commands:gws-search         │ Google Workspace search" \
-            "/commands:morning-check      │ Morning routine" \
-            "/commands:weekly-ops-review  │ Weekly review" \
-            "/commands:save               │ Save session state" \
-            "/commands:restore            │ Restore previous session" \
-            | fzf --height 22 --reverse --prompt="Skill: " --header="Select skill to start with")
-
-        if [ -n "$skill" ]; then
-            selected=$(echo "$skill" | awk -F'│' '{print $1}' | xargs)
-            cd "$WORKSPACE" && exec claude "$selected"
-        else
-            cd "$WORKSPACE" && exec claude
+        skill=$(ls "$WS"/.claude/commands/*.md 2>/dev/null \
+            | sed 's|.*/||; s|\.md$||' \
+            | sort \
+            | fzf --height 20 --reverse --prompt="skill: ")
+        launch ${skill:+"/commands:$skill"}
+        ;;
+    plain)   launch ;;
+    auto)
+        hour=$(date +%-H)
+        if   (( hour >= 20 )); then launch "/commands:session-retro"
+        elif (( hour < 10 ));  then launch "/commands:morning-check"
+        else                        launch "/commands:cs"
         fi
-        ;;
-
-    plain)
-        cd "$WORKSPACE" && exec claude
-        ;;
-
-    auto|*)
-        # Get context-based suggestion
-        suggested=$(~/.claude/scripts/context-analyzer.sh 2>/dev/null)
-        first_skill=$(echo "${suggested:-/commands:cs}" | awk '{print $1}')
-        echo -e "  ${DIM}→${NC} ${GREEN}${first_skill}${NC}"
-        echo ""
-        cd "$WORKSPACE" && exec claude "$first_skill"
         ;;
 esac

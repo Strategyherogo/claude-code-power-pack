@@ -2,12 +2,15 @@
 # Session End Auto-Save — generates context save file automatically
 # Runs on Stop event
 
+# Source centralized paths
+source ~/.config/claude/paths.env
+
 INPUT=$(cat)
 HOOK_EVENT=$(echo "$INPUT" | jq -r '.hook_event_name // "unknown"')
 [ "$HOOK_EVENT" != "Stop" ] && exit 0
 
-WORKSPACE="$HOME/ClaudeCodeWorkspace"
-SAVES="$WORKSPACE/context-saves"
+WORKSPACE="$CLAUDE_WORKSPACE"
+SAVES="$CLAUDE_CONTEXT_SAVES_DIR"
 TODAY=$(date +%Y-%m-%d)
 NOW=$(date '+%Y-%m-%d %H:%M')
 
@@ -45,6 +48,9 @@ cd $WORKSPACE
 git log --oneline -5
 \`\`\`
 SAVE
+
+# Auto-stage the context save so it's included in next commit
+git -C "$WORKSPACE" add "$SAVE_FILE" 2>/dev/null
 
 # Notify
 if [ "$CHANGES" -gt 3 ]; then

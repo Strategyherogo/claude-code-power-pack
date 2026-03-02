@@ -9,11 +9,11 @@ Complete reference: how skills trigger, when they run, and what they do.
 ## Quick Stats
 | Metric | Count |
 |--------|-------|
-| Total Skills | 139 |
+| Total Skills | 140 |
 | Blocking Gates | 3 |
 | Agent Workflows | 3 |
 | Categories | 18 |
-| Auto-Hooks | 10 |
+| Auto-Hooks | 9 |
 | Trigger Mappings | ~105 |
 
 ---
@@ -374,7 +374,7 @@ Complete reference: how skills trigger, when they run, and what they do.
 
 ---
 
-## Sales (9 skills — Anthropic Sales Plugin)
+## Sales (9 skills — colon-namespaced flat files)
 
 | Skill | Keywords | What It Does |
 |-------|----------|-------------|
@@ -387,6 +387,8 @@ Complete reference: how skills trigger, when they run, and what they do.
 | `/sales:create-asset` | sales asset, create deck | Generate landing pages, decks, one-pagers for prospects |
 | `/sales:daily-briefing` | morning briefing, what's on my plate | Pipeline alerts, meeting prep, email priorities |
 | `/sales:draft-outreach` | draft outreach, prospect email | Research prospect first, then personalized outreach |
+
+Supporting files: `sales:README.md` (overview), `sales:connectors.md` (MCP integration guide).
 
 ---
 
@@ -424,7 +426,7 @@ Before accessing any authenticated service, the system checks in order:
 
 | Type | Location |
 |------|----------|
-| Skill files (110) | `.claude/commands/*.md` |
+| Skill files (140) | `.claude/commands/*.md` (flat, colon-namespaced) |
 | Hook scripts (10) | `~/.claude/hooks/*.sh` |
 | Trigger mappings | `.claude/MASTER.md` |
 | Pointer config | `.claude/CLAUDE.md` |
@@ -455,4 +457,4 @@ Before accessing any authenticated service, the system checks in order:
 
 ---
 
-*Last updated: 2026-02-07*
+*Last updated: 2026-02-17*

@@ -73,6 +73,20 @@ git checkout [branch]
 ```
 ```
 
+### Step 2b: Export Session to Iterations Folder
+
+Always run immediately after writing the handoff file:
+
+```bash
+DATE=$(date +%d%m)
+ITER_DIR="$HOME/ClaudeCodeWorkspace/3. Resources/02-iterations"
+LAST_V=$(ls "$ITER_DIR/${DATE} v"*.txt 2>/dev/null | grep -oE 'v[0-9]+' | grep -oE '[0-9]+' | sort -n | tail -1)
+NEXT_V=$(( ${LAST_V:-0} + 1 ))
+DEST="$ITER_DIR/${DATE} v${NEXT_V}.txt"
+cp "$HOME/.claude/conversation-logs/$(date +%Y-%m-%d).md" "$DEST"
+echo "Exported: $DEST"
+```
+
 ### Step 3: Ask Only What Can't Be Auto-Detected
 
 Only ask the user (max 2 questions):

@@ -58,9 +58,45 @@ This file is always overwritten (single file, not accumulating).
 
 ---
 
-## Auto-Checkpoint
+## Auto-Checkpoint Triggers
 
+### 1. Context Window Pressure
 When context window pressure is detected (compaction warning), automatically run checkpoint before compaction occurs. No user interaction needed.
+
+### 2. API Error Detection (NEW)
+When tool use operations fail with API errors, auto-checkpoint before retry:
+
+**Error patterns to catch:**
+```
+- 500 Internal Server Error
+- 502 Bad Gateway
+- 503 Service Unavailable
+- 504 Gateway Timeout
+- "overloaded_error" in response
+- "rate_limit_error" (after rate limit hit)
+```
+
+**Auto-checkpoint workflow:**
+```
+1. Detect API error in tool result
+2. Silently run checkpoint (save to both /tmp and context-saves/)
+3. Show user:
+   ⚠️  API error detected — checkpoint saved
+   📌 State saved to: context-saves/.checkpoint-latest.md
+   🔄 Safe to retry now
+4. Wait for user action (retry, abort, or new direction)
+```
+
+### 3. Long-Running Operations
+For tool use sequences exceeding 5 minutes, auto-checkpoint at the 5-minute mark:
+
+```
+⏱️  Long operation detected (5+ minutes)
+📌 Auto-checkpoint saved
+   Continuing...
+```
+
+**Why:** API errors are more likely in long operations. Checkpointing mid-operation prevents total loss.
 
 ---
 

@@ -1,8 +1,8 @@
 # Skill: report-pdf
-Generate PDF reports from data.
+Generate PDF or HTML email reports from data.
 
 ## Auto-Trigger
-**When:** "generate report", "pdf report", "export pdf", "create report"
+**When:** "generate report", "pdf report", "export pdf", "create report", "html email", "email report"
 
 ## Report Types
 
@@ -185,6 +185,41 @@ grip report.md --export report.html
 # Then print to PDF
 ```
 
+### HTML Email Output
+For reports shared via email with styled tables (investor reports, SLA summaries, etc.):
+
+```
+1. Use the template: .claude/templates/email-tables.html
+2. Copy template, replace placeholder content
+3. CSS classes available:
+   - .num       — right-align numeric cells
+   - .red       — red bold (breaches, failures)
+   - .green     — green (compliant, good)
+   - .orange    — orange bold (warnings)
+   - .muted     — gray secondary info
+   - tr.total   — bold summary row with top border
+   - .note      — small gray footnote
+4. Preview: open output.html in browser
+5. Send: copy HTML body into email client, or paste as HTML source
+```
+
+**Important for email clients:**
+- Avoid backtick formatting (doesn't render in email)
+- Use quotes "ir" instead of `ir`
+- Test in Gmail/Outlook before sending — some strip `<style>` blocks
+- For maximum compatibility, consider inline styles for critical formatting
+
+### Markdown → Chrome PDF (no weasyprint needed)
+```bash
+# Step 1: Markdown → HTML
+pandoc report.md -o /tmp/report.html --standalone
+
+# Step 2: Chrome headless → PDF
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --no-pdf-header-footer \
+  --print-to-pdf=report.pdf /tmp/report.html
+```
+
 ## Report Checklist
 ```
 □ Clear title and date
@@ -211,4 +246,4 @@ Charts: Labeled axes, legends
 ```
 
 ---
-Last updated: 2026-01-27
+Last updated: 2026-02-10
