@@ -192,7 +192,8 @@ This package contains only markdown instruction files and shell scripts. It does
 - Access any external APIs or services
 - Collect or transmit any data
 - Require any credentials or authentication
-- Modify any system configuration
+
+It does modify `~/.claude/settings.json` to register hooks (backed up before changes).
 
 The hook scripts read only local git state and environment variables. Review them before enabling.
 

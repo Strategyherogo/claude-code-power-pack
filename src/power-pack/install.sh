@@ -52,7 +52,7 @@ mkdir -p "$TARGET_CLAUDE"
 # --- Step 0: Backup existing commands/ if present ---
 BACKED_UP=""
 if [ -d "$TARGET_CLAUDE/commands" ]; then
-    EXISTING_COUNT=$(find "$TARGET_CLAUDE/commands" -name "*.md" -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
+    EXISTING_COUNT=$(find "$TARGET_CLAUDE/commands" -maxdepth 1 -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
     if [ "$EXISTING_COUNT" -gt 0 ]; then
         BACKUP_DIR="$TARGET_CLAUDE/commands-backup-$TIMESTAMP"
         cp -R "$TARGET_CLAUDE/commands" "$BACKUP_DIR"
@@ -86,8 +86,8 @@ if [ -d "$PACK_CLAUDE/commands" ]; then
         else
             cp "$skill" "$TARGET_CLAUDE/commands/$name"
             SKILL_COPIED=$((SKILL_COPIED + 1))
+            INSTALLED_SKILLS+=("commands/$name")
         fi
-        INSTALLED_SKILLS+=("commands/$name")
     done
 
     # Subdirectory skills (e.g., sales/)
@@ -104,8 +104,8 @@ if [ -d "$PACK_CLAUDE/commands" ]; then
             else
                 cp "$skill" "$TARGET_CLAUDE/commands/$dirname/$name"
                 SKILL_COPIED=$((SKILL_COPIED + 1))
+                INSTALLED_SKILLS+=("commands/$dirname/$name")
             fi
-            INSTALLED_SKILLS+=("commands/$dirname/$name")
         done
     done
 fi
@@ -186,68 +186,73 @@ echo ""
 echo "  Hook Wiring"
 echo "  -----------"
 
-# Define the hook configuration
-# Each hook: event|matcher|command
-HOOK_DEFS=(
-    "UserPromptSubmit||bash $TARGET_CLAUDE/hooks/startup-parallel.sh"
-    "PreToolUse|Bash|bash $TARGET_CLAUDE/hooks/pre-deploy-check.sh"
-    "Stop||bash $TARGET_CLAUDE/hooks/session-end-save.sh"
-)
+if [ "${#INSTALLED_HOOKS[@]}" -gt 0 ]; then
+    # Define the hook configuration
+    # Each hook: event|matcher|command
+    HOOK_DEFS=(
+        "UserPromptSubmit||bash $TARGET_CLAUDE/hooks/startup-parallel.sh"
+        "PreToolUse|Bash|bash $TARGET_CLAUDE/hooks/pre-deploy-check.sh"
+        "Stop||bash $TARGET_CLAUDE/hooks/session-end-save.sh"
+    )
 
-# Ensure settings.json exists with at least {}
-if [ ! -f "$SETTINGS_FILE" ]; then
-    mkdir -p "$(dirname "$SETTINGS_FILE")"
-    echo '{}' > "$SETTINGS_FILE"
-    ok "Created $SETTINGS_FILE"
-fi
+    # Ensure settings.json exists with at least {}
+    if [ ! -f "$SETTINGS_FILE" ]; then
+        mkdir -p "$(dirname "$SETTINGS_FILE")"
+        echo '{}' > "$SETTINGS_FILE"
+        ok "Created $SETTINGS_FILE"
+    fi
 
-# Validate it's valid JSON
-if ! jq empty "$SETTINGS_FILE" 2>/dev/null; then
-    fail "settings.json is not valid JSON. Skipping hook wiring."
-    ERRORS=$((ERRORS + 1))
+    # Validate it's valid JSON
+    if ! jq empty "$SETTINGS_FILE" 2>/dev/null; then
+        fail "settings.json is not valid JSON. Skipping hook wiring."
+        ERRORS=$((ERRORS + 1))
+    else
+        # Backup settings.json
+        cp "$SETTINGS_FILE" "$SETTINGS_FILE.backup-$TIMESTAMP"
+
+        HOOKS_ADDED=0
+        HOOKS_SKIPPED=0
+
+        for hookdef in "${HOOK_DEFS[@]}"; do
+            IFS='|' read -r event matcher command <<< "$hookdef"
+
+            # Build the hook object
+            if [ -n "$matcher" ]; then
+                HOOK_OBJ=$(jq -n --arg cmd "$command" --arg m "$matcher" \
+                    '{"type": "command", "command": $cmd, "matcher": $m}')
+            else
+                HOOK_OBJ=$(jq -n --arg cmd "$command" \
+                    '{"type": "command", "command": $cmd}')
+            fi
+
+            # Check if this hook command already exists in the event array
+            EXISTING=$(jq -r --arg event "$event" --arg cmd "$command" \
+                '.hooks[$event] // [] | map(select(.command == $cmd)) | length' \
+                "$SETTINGS_FILE" 2>/dev/null)
+
+            if [ "$EXISTING" = "0" ] || [ -z "$EXISTING" ]; then
+                # Merge: ensure .hooks exists, ensure .hooks[$event] is an array, append
+                jq --arg event "$event" --argjson hook "$HOOK_OBJ" \
+                    '.hooks //= {} | .hooks[$event] //= [] | .hooks[$event] += [$hook]' \
+                    "$SETTINGS_FILE" > "$SETTINGS_FILE.tmp" && \
+                    mv "$SETTINGS_FILE.tmp" "$SETTINGS_FILE"
+                HOOKS_ADDED=$((HOOKS_ADDED + 1))
+            else
+                HOOKS_SKIPPED=$((HOOKS_SKIPPED + 1))
+            fi
+        done
+
+        if [ "$HOOKS_ADDED" -gt 0 ]; then
+            ok "Wired $HOOKS_ADDED hooks into settings.json"
+        fi
+        if [ "$HOOKS_SKIPPED" -gt 0 ]; then
+            ok "Skipped $HOOKS_SKIPPED hooks (already registered)"
+        fi
+        ok "Settings backup: settings.json.backup-$TIMESTAMP"
+    fi
 else
-    # Backup settings.json
-    cp "$SETTINGS_FILE" "$SETTINGS_FILE.backup-$TIMESTAMP"
-
-    HOOKS_ADDED=0
-    HOOKS_SKIPPED=0
-
-    for hookdef in "${HOOK_DEFS[@]}"; do
-        IFS='|' read -r event matcher command <<< "$hookdef"
-
-        # Build the hook object
-        if [ -n "$matcher" ]; then
-            HOOK_OBJ=$(jq -n --arg cmd "$command" --arg m "$matcher" \
-                '{"type": "command", "command": $cmd, "matcher": $m}')
-        else
-            HOOK_OBJ=$(jq -n --arg cmd "$command" \
-                '{"type": "command", "command": $cmd}')
-        fi
-
-        # Check if this hook command already exists in the event array
-        EXISTING=$(jq -r --arg event "$event" --arg cmd "$command" \
-            '.hooks[$event] // [] | map(select(.command == $cmd)) | length' \
-            "$SETTINGS_FILE" 2>/dev/null)
-
-        if [ "$EXISTING" = "0" ] || [ -z "$EXISTING" ]; then
-            # Merge: ensure .hooks exists, ensure .hooks[$event] is an array, append
-            jq --arg event "$event" --argjson hook "$HOOK_OBJ" \
-                '.hooks //= {} | .hooks[$event] //= [] | .hooks[$event] += [$hook]' \
-                "$SETTINGS_FILE" > "$SETTINGS_FILE.tmp" && \
-                mv "$SETTINGS_FILE.tmp" "$SETTINGS_FILE"
-            HOOKS_ADDED=$((HOOKS_ADDED + 1))
-        else
-            HOOKS_SKIPPED=$((HOOKS_SKIPPED + 1))
-        fi
-    done
-
-    if [ "$HOOKS_ADDED" -gt 0 ]; then
-        ok "Wired $HOOKS_ADDED hooks into settings.json"
-    fi
-    if [ "$HOOKS_SKIPPED" -gt 0 ]; then
-        ok "Skipped $HOOKS_SKIPPED hooks (already registered)"
-    fi
-    ok "Settings backup: settings.json.backup-$TIMESTAMP"
+    HOOK_DEFS=()
+    ok "No hooks to wire (hooks/ directory not present in pack)"
 fi
 
 # --- Step 8: Write manifest ---
@@ -297,7 +302,7 @@ echo "  Validation"
 echo "  ----------"
 
 # Check skill count matches
-ACTUAL_SKILLS=$(find "$TARGET_CLAUDE/commands" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+ACTUAL_SKILLS=$(find "$TARGET_CLAUDE/commands" -maxdepth 1 -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 if [ "$ACTUAL_SKILLS" -ge "$SKILL_TOTAL" ]; then
     ok "Skills: $ACTUAL_SKILLS files present (expected >= $SKILL_TOTAL)"
 else
