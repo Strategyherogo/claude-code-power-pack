@@ -3,8 +3,8 @@
 Tests for genericize.py — verifies that the distributed files
 contain no personal data leaks.
 
-Runs against the already-built src/pro/ directory.
-If src/pro/ doesn't exist, verifies the genericize patterns work correctly.
+Runs against the already-built src/power-pack/ directory.
+If src/power-pack/ doesn't exist, verifies the genericize patterns work correctly.
 """
 
 import os
@@ -91,7 +91,7 @@ def main():
 
     # Test 1: Scan distributed files for leaks
     if os.path.exists(pro_dir):
-        print("[1/2] Scanning src/pro/ for personal data leaks...")
+        print("[1/2] Scanning src/power-pack/ for personal data leaks...")
         leaks = scan_directory(pro_dir)
         if leaks:
             print(f"  FAILED — {len(leaks)} leaks found:")
@@ -102,7 +102,7 @@ def main():
             file_count = sum(1 for _, _, files in os.walk(pro_dir) for _ in files)
             print(f"  PASSED — {file_count} files scanned, 0 leaks")
     else:
-        print("[1/2] SKIP — src/pro/ not found (run genericize.py first)")
+        print("[1/2] SKIP — src/power-pack/ not found (run genericize.py first)")
 
     # Test 2: Verify patterns work
     print("\n[2/2] Testing genericize patterns...")

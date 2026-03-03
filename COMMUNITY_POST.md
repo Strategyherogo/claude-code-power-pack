@@ -30,7 +30,7 @@ The genericizer that strips personal data for distribution (`genericize.py`) was
 ```bash
 git clone https://github.com/Strategyherogo/claude-code-power-pack.git
 cd your-project
-bash /path/to/claude-code-power-pack/src/pro/install.sh
+bash /path/to/claude-code-power-pack/src/power-pack/install.sh
 ```
 
 Skills are just markdown files — no dependencies, no build step, no runtime. Edit any skill to match your workflow.

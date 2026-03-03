@@ -55,7 +55,7 @@ git clone https://github.com/Strategyherogo/claude-code-power-pack.git
 
 # Install into your project
 cd your-project
-bash /path/to/claude-code-power-pack/src/pro/install.sh
+bash /path/to/claude-code-power-pack/src/power-pack/install.sh
 ```
 
 The installer:

@@ -16,7 +16,7 @@ CLAUDE_DIR = f"{HOME}/.claude"
 
 # Output locations
 SCRIPT_DIR = Path(__file__).parent
-PRO_DIR = SCRIPT_DIR / "src" / "pro"
+PRO_DIR = SCRIPT_DIR / "src" / "power-pack"
 
 # Replacements: (pattern, replacement)
 REPLACEMENTS = [
@@ -214,4 +214,4 @@ if __name__ == "__main__":
 
     build_pro_tier()
     verify_no_personal_data()
-    print("\nDone. Files in src/pro/")
+    print("\nDone. Files in src/power-pack/")

@@ -31,7 +31,7 @@ jobs:
           mkdir /tmp/test-project
           cd /tmp/test-project
           git init
-          bash "$GITHUB_WORKSPACE/src/pro/install.sh"
+          bash "$GITHUB_WORKSPACE/src/power-pack/install.sh"
 
       - name: Verify installed files exist
         run: |

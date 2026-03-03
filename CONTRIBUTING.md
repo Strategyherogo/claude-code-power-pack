@@ -5,7 +5,7 @@ Thanks for your interest in contributing! This project is open source and welcom
 ## Ways to Contribute
 
 ### Add a New Skill
-1. Create a markdown file in `src/pro/.claude/commands/`
+1. Create a markdown file in `src/power-pack/.claude/commands/`
 2. Follow the naming convention: `skill-name.md` (kebab-case)
 3. Use namespaces for domain-specific skills: `swift:skill-name.md`, `sales:skill-name.md`
 4. Include these sections:
@@ -31,7 +31,7 @@ Thanks for your interest in contributing! This project is open source and welcom
 - Improve output format
 
 ### Add Coding Rules
-- Drop a `.md` file in `src/pro/.claude/rules/`
+- Drop a `.md` file in `src/power-pack/.claude/rules/`
 - Follow the pattern of existing rules (common.md, python.md, etc.)
 
 ### Report Issues
@@ -47,7 +47,7 @@ cd claude-code-power-pack
 
 # Install into a test project
 mkdir /tmp/test-project && cd /tmp/test-project
-bash /path/to/claude-code-power-pack/src/pro/install.sh
+bash /path/to/claude-code-power-pack/src/power-pack/install.sh
 
 # Test your changes
 cd /tmp/test-project
