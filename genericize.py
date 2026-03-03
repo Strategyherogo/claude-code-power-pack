@@ -16,7 +16,6 @@ CLAUDE_DIR = f"{HOME}/.claude"
 
 # Output locations
 SCRIPT_DIR = Path(__file__).parent
-FREE_DIR = SCRIPT_DIR / "src" / "free"
 PRO_DIR = SCRIPT_DIR / "src" / "pro"
 
 # Replacements: (pattern, replacement)
@@ -85,45 +84,6 @@ def copy_and_genericize(src: str, dst: str) -> None:
             f.write(content)
     except (UnicodeDecodeError, IsADirectoryError):
         shutil.copy2(src, dst)
-
-
-def build_free_tier():
-    """Build the free starter pack."""
-    print("Building Free Starter Pack...")
-
-    # 10 core skills
-    free_skills = [
-        "cs.md", "save.md", "restore.md", "systematic-debug.md",
-        "focus.md", "deploy-verify.md", "git-flow.md", "tdd.md",
-        "handoff.md", "scaffold.md"
-    ]
-    for skill in free_skills:
-        src = f"{WORKSPACE}/.claude/commands/{skill}"
-        if os.path.exists(src):
-            copy_and_genericize(src, str(FREE_DIR / ".claude" / "commands" / skill))
-
-    # All 4 rules
-    rules_dir = f"{WORKSPACE}/.claude/rules"
-    if os.path.exists(rules_dir):
-        for f in os.listdir(rules_dir):
-            if f.endswith(".md"):
-                copy_and_genericize(
-                    f"{rules_dir}/{f}",
-                    str(FREE_DIR / ".claude" / "rules" / f)
-                )
-
-    # Genericized CLAUDE.md
-    src = f"{WORKSPACE}/.claude/CLAUDE.md"
-    if os.path.exists(src):
-        copy_and_genericize(src, str(FREE_DIR / ".claude" / "CLAUDE.md"))
-
-    # .gitkeep for context-saves
-    (FREE_DIR / "context-saves").mkdir(parents=True, exist_ok=True)
-    (FREE_DIR / "context-saves" / ".gitkeep").touch()
-
-    skill_count = len([f for f in (FREE_DIR / ".claude" / "commands").iterdir() if f.suffix == ".md"])
-    rule_count = len([f for f in (FREE_DIR / ".claude" / "rules").iterdir() if f.suffix == ".md"])
-    print(f"  Skills: {skill_count}, Rules: {rule_count}")
 
 
 def build_pro_tier():
@@ -218,7 +178,7 @@ def verify_no_personal_data():
         r"xoxb-[0-9]{10,}",
     ]
 
-    for tier_dir in [FREE_DIR, PRO_DIR]:
+    for tier_dir in [PRO_DIR]:
         for root, dirs, files in os.walk(tier_dir):
             for f in files:
                 fpath = os.path.join(root, f)
@@ -247,13 +207,11 @@ def verify_no_personal_data():
 
 
 if __name__ == "__main__":
-    # Clean output dirs
-    for d in [FREE_DIR, PRO_DIR]:
-        if d.exists():
-            shutil.rmtree(d)
-        d.mkdir(parents=True)
+    # Clean output dir
+    if PRO_DIR.exists():
+        shutil.rmtree(PRO_DIR)
+    PRO_DIR.mkdir(parents=True)
 
-    build_free_tier()
     build_pro_tier()
     verify_no_personal_data()
-    print("\nDone. Files in src/free/ and src/pro/")
+    print("\nDone. Files in src/pro/")

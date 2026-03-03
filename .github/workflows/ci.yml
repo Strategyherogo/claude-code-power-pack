@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  genericize-check:
+    name: Verify no personal data leaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run genericize verification
+        run: python3 tests/test_genericize.py
+
+  install-check:
+    name: Verify install script works
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test install into empty project
+        run: |
+          mkdir /tmp/test-project
+          cd /tmp/test-project
+          git init
+          bash "$GITHUB_WORKSPACE/src/pro/install.sh"
+
+      - name: Verify installed files exist
+        run: |
+          cd /tmp/test-project
+          test -d .claude/commands
+          test -d .claude/rules
+          test -f .claude/commands/cs.md
+          test -f .claude/rules/common.md
+          echo "Install verification passed"

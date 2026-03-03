@@ -39,4 +39,6 @@ Skills are just markdown files — no dependencies, no build step, no runtime. E
 
 **Repo:** https://github.com/Strategyherogo/claude-code-power-pack
 
+Contributions welcome — see [CONTRIBUTING.md](https://github.com/Strategyherogo/claude-code-power-pack/blob/main/CONTRIBUTING.md) for how to add your own skills.
+
 Happy to answer questions about the system architecture or specific skills.
