@@ -58,11 +58,26 @@ cd your-project
 bash /path/to/claude-code-power-pack/src/power-pack/install.sh
 ```
 
-The installer:
-- Copies skills to `.claude/commands/` (skips any you already have)
+The installer (requires `jq`):
+- Backs up your existing `.claude/commands/` if present
+- Copies skills to `.claude/commands/` (skips any you already have — use `FORCE=1` to overwrite)
 - Copies rules to `.claude/rules/`
 - Copies config templates (only if you don't have existing ones)
-- Creates a context-saves directory for session handoffs
+- **Auto-wires hooks** into `~/.claude/settings.json` (no manual JSON editing)
+- Writes a manifest (`.power-pack-manifest.json`) for clean uninstall
+- Validates everything at the end
+
+### Uninstall
+
+```bash
+bash /path/to/claude-code-power-pack/src/power-pack/uninstall.sh
+```
+
+The uninstaller:
+- Removes only files that were installed by the power pack (manifest-based)
+- Unwires hooks from `settings.json`
+- Optionally restores your backed-up commands
+- Use `--yes` to skip confirmation prompt
 
 ### Try It
 
@@ -77,7 +92,7 @@ The installer:
 
 ## Hook Setup
 
-Hooks require manual wiring in `~/.claude/settings.json`. Add to the `hooks` object:
+Hooks are **automatically wired** by the installer into `~/.claude/settings.json`. The following hooks are configured:
 
 ```json
 {
@@ -85,25 +100,27 @@ Hooks require manual wiring in `~/.claude/settings.json`. Add to the `hooks` obj
     "UserPromptSubmit": [
       {
         "type": "command",
-        "command": "bash ~/.claude/hooks/startup-parallel.sh"
+        "command": "bash <target>/.claude/hooks/startup-parallel.sh"
       }
     ],
     "PreToolUse": [
       {
         "matcher": "Bash",
         "type": "command",
-        "command": "bash ~/.claude/hooks/pre-deploy-check.sh"
+        "command": "bash <target>/.claude/hooks/pre-deploy-check.sh"
       }
     ],
     "Stop": [
       {
         "type": "command",
-        "command": "bash ~/.claude/hooks/session-end-save.sh"
+        "command": "bash <target>/.claude/hooks/session-end-save.sh"
       }
     ]
   }
 }
 ```
+
+If you already have hooks configured, the installer will merge without duplicating.
 
 ## How It Works
 
