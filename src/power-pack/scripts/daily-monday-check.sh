@@ -20,7 +20,7 @@ if not token:
     exit(1)
 
 data = json.dumps({'query': '''{
-    boards(ids: [5075669294, 5090410974, 5090410362]) {
+    boards(ids: [YOUR_BOARD_ID_1, YOUR_BOARD_ID_2, YOUR_BOARD_ID_3]) {
         name
         items_page(limit: 30) {
             items { name column_values { text } }

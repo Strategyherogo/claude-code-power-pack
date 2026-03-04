@@ -23,7 +23,7 @@
 
 ## D&S (Apps Factory)
 
-**Path:** `/Users/jenyago/Desktop/Apps Factory/`
+**Path:** `~/Desktop/Apps Factory/`
 
 **Focus Areas:**
 - MCP server development

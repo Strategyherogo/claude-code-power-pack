@@ -19,74 +19,63 @@ SCRIPT_DIR = Path(__file__).parent
 PRO_DIR = SCRIPT_DIR / "src" / "power-pack"
 
 # Replacements: (pattern, replacement)
+# IMPORTANT: Fill in YOUR real values below before running.
+# Each tuple is (regex_pattern_matching_your_data, generic_replacement).
+# Example: (r"your-username", "YOUR_USERNAME")
 REPLACEMENTS = [
-    # Personal paths
-    (r"/Users/jenyagowork", "$HOME"),
-    (r"jenyagowork", "YOUR_USERNAME"),
-    # Company/org
-    (r"thealternative\.co", "YOUR_COMPANY.com"),
-    (r"thealternative", "YOUR_COMPANY"),
-    (r"The Alternative", "YOUR_COMPANY"),
-    (r"Strategyherogo", "YOUR_GITHUB_ORG"),
-    # Monday.com IDs
-    (r"5091380779", "YOUR_MONDAY_BOARD_ID"),
-    (r"5090420844", "YOUR_MONDAY_BOARD_ID_2"),
-    (r"5090410989", "YOUR_MONDAY_BOARD_ID_3"),
-    (r"2628729", "YOUR_MONDAY_FOLDER_ID"),
+    # Personal paths — replace with your macOS username
+    (r"/Users/YOUR_USERNAME", "$HOME"),
+    (r"YOUR_USERNAME", "YOUR_USERNAME"),
+    # Company/org — replace with your company domain and GitHub org
+    (r"yourcompany\.com", "YOUR_COMPANY.com"),
+    (r"yourcompany", "YOUR_COMPANY"),
+    (r"Your Company Name", "YOUR_COMPANY"),
+    (r"YourGitHubOrg", "YOUR_GITHUB_ORG"),
+    # Monday.com IDs — replace with your board/folder IDs
+    (r"YOUR_BOARD_ID_1", "YOUR_MONDAY_BOARD_ID"),
+    (r"YOUR_BOARD_ID_2", "YOUR_MONDAY_BOARD_ID_2"),
+    (r"YOUR_BOARD_ID_3", "YOUR_MONDAY_BOARD_ID_3"),
+    (r"YOUR_FOLDER_ID", "YOUR_MONDAY_FOLDER_ID"),
     (r"color_mm0[a-z0-9]+", "YOUR_COLUMN_ID"),
     (r"text_mm0[a-z0-9]+", "YOUR_COLUMN_ID"),
     (r"numeric_mm0[a-z0-9]+", "YOUR_COLUMN_ID"),
     (r"link_mm0[a-z0-9]+", "YOUR_COLUMN_ID"),
-    # Jira
-    (r"40e33327-adf8-4b21-a33e-bf0c4759a3fe", "YOUR_JIRA_CLOUD_ID"),
-    (r"thealternative\.atlassian\.net", "YOUR_ORG.atlassian.net"),
-    # API tokens (safety net)
+    # Jira — replace with your Jira Cloud ID and org domain
+    (r"YOUR-JIRA-CLOUD-UUID", "YOUR_JIRA_CLOUD_ID"),
+    (r"yourorg\.atlassian\.net", "YOUR_ORG.atlassian.net"),
+    # API tokens (safety net — catches common token patterns)
     (r"eyJhbGciOi[A-Za-z0-9._-]+", "YOUR_API_TOKEN"),
     (r"ATATT3x[A-Za-z0-9._-]+", "YOUR_JIRA_TOKEN"),
     (r"sk-ant-api[A-Za-z0-9._-]+", "YOUR_ANTHROPIC_KEY"),
     (r"xoxb-[0-9]{10,}[A-Za-z0-9-]+", "YOUR_SLACK_TOKEN"),
-    # Specific project references
-    (r"01-ir-email-monitor", "YOUR_PROJECT"),
-    (r"06-slack-jira-bot-alternative", "YOUR_PROJECT"),
-    (r"25-claude-usage-battery", "YOUR_PROJECT"),
-    # Specific people
-    (r"egoncharov@", "user@"),
-    (r"kupranis", "YOUR_NAME"),
-    # IP addresses
-    (r"167\.71\.142\.118", "YOUR_SERVER_IP"),
+    # Specific project references — replace with your project folder names
+    (r"01-your-project-name", "YOUR_PROJECT"),
+    (r"06-your-other-project", "YOUR_PROJECT"),
+    (r"25-your-third-project", "YOUR_PROJECT"),
+    # Specific people — replace with names/emails to scrub
+    (r"yourname@", "user@"),
+    (r"colleague_name", "YOUR_NAME"),
+    # IP addresses — replace with your server IPs
+    (r"YOUR_SERVER_IP_HERE", "YOUR_SERVER_IP"),
     # GCP service accounts
     (r"gcp-service-account", "YOUR_SERVICE_ACCOUNT"),
-    # Apple Developer
-    (r"W5VGBZU449", "YOUR_APPLE_TEAM_ID"),
-    (r"126853098", "YOUR_ITUNES_TEAM_ID"),
-    (r"4ce35a36-0c5c-4d96-8e96-638b6eb3558d", "YOUR_ASC_ISSUER_ID"),
-    (r"367Y4J63B8", "YOUR_ASC_KEY_ID"),
+    # Apple Developer — replace with your Apple team/key IDs
+    (r"YOUR_TEAM_ID_HERE", "YOUR_APPLE_TEAM_ID"),
+    (r"YOUR_ITUNES_ID_HERE", "YOUR_ITUNES_TEAM_ID"),
+    (r"YOUR_ISSUER_UUID_HERE", "YOUR_ASC_ISSUER_ID"),
+    (r"YOUR_KEY_ID_HERE", "YOUR_ASC_KEY_ID"),
     (r"AuthKey_[A-Z0-9]+\.p8", "AuthKey_YOUR_KEY_ID.p8"),
-    # App Store App IDs
-    (r"6759666880", "YOUR_APP_ID"),
-    (r"6757957380", "YOUR_APP_ID"),
-    (r"6758680488", "YOUR_APP_ID"),
-    (r"6478761128", "YOUR_APP_ID"),
-    (r"6756375182", "YOUR_APP_ID"),
-    (r"6476440873", "YOUR_APP_ID"),
-    # Bundle IDs
-    (r"com\.wattora\.app", "com.yourcompany.yourapp"),
-    (r"com\.evgenygo\.\w+", "com.yourcompany.yourapp"),
-    (r"com\.evgenygoncharov\.\w+", "com.yourcompany.yourapp"),
-    (r"com\.dev\.phytimer\.\w+", "com.yourcompany.yourapp"),
-    (r"com\.dev\.expenceapp", "com.yourcompany.yourapp"),
-    # App names (replace specific product names)
-    (r"Wattora", "YourApp"),
-    (r"Mbox to EML Converter", "YourApp"),
-    (r"AI API Usage Battery", "YourApp"),
-    (r"Phygital Timer", "YourApp"),
-    (r"IOS Home Screen Layout Master", "YourApp"),
-    (r"eXpense - Money Tracker", "YourApp"),
-    (r"eXpense", "YourApp"),
-    # Domains (case-insensitive handled via re.IGNORECASE in apply)
-    (r"techconcepts\.org", "yourdomain.org"),
-    (r"[Tt]ech[Cc]oncepts", "YourCompany"),
-    (r"[Ww]attora", "YourApp"),
+    # App Store App IDs — replace with your numeric app IDs
+    (r"YOUR_APP_ID_1", "YOUR_APP_ID"),
+    (r"YOUR_APP_ID_2", "YOUR_APP_ID"),
+    # Bundle IDs — replace with your bundle ID patterns
+    (r"com\.yourcompany\.\w+", "com.yourcompany.yourapp"),
+    # App names — replace with your specific app names
+    (r"YourAppName1", "YourApp"),
+    (r"YourAppName2", "YourApp"),
+    # Domains
+    (r"yourdomain\.org", "yourdomain.org"),
+    (r"YourCompanyName", "YourCompany"),
 ]
 
 
@@ -199,13 +188,18 @@ def verify_no_personal_data():
     """Check that no personal data leaked into output."""
     print("\nVerifying no personal data...")
     leaks = []
+    # Add your own sensitive terms here to verify they were scrubbed.
+    # These are examples — replace with YOUR actual identifiers.
     sensitive = [
-        "thealternative", "jenyagowork", "5091380", "40e33327",
-        "egoncharov", "kupranis", "167.71.142", "eyJhbGciOi",
-        "ATATT3x", "sk-ant-api", "W5VGBZU449", "367Y4J63B8",
-        "4ce35a36", "techconcepts", "6759666880", "6757957380",
-        "com.wattora", "com.evgenygo", "com.evgenygoncharov",
-        "Wattora", "Phygital Timer", "eXpense",
+        # "your-username",        # Your macOS username
+        # "your-company-domain",  # Your company domain
+        # "your-jira-cloud-id",   # First 8 chars of your Jira Cloud UUID
+        # "your-email-prefix",    # Part before @ in your email
+        # "your-server-ip",       # Your server IP (first 3 octets)
+        # "your-api-key-prefix",  # First few chars of any API key
+        # "your-apple-team-id",   # Apple Developer Team ID
+        # "your-asc-key-id",      # App Store Connect Key ID
+        # "your-app-name",        # Your app's display name
     ]
     # xoxb- only counts as a leak if followed by 10+ digits (actual token)
     sensitive_patterns = [

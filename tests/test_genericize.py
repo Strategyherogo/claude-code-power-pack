@@ -11,15 +11,16 @@ import os
 import re
 import sys
 
-# Sensitive terms that must NOT appear in distributed files
+# Sensitive terms that must NOT appear in distributed files.
+# Replace these with YOUR actual identifiers before running.
 SENSITIVE_TERMS = [
-    "thealternative",
-    "jenyagowork",
-    "5091380779",   # Monday board ID
-    "40e33327",     # Jira cloud ID
-    "egoncharov",
-    "kupranis",
-    "167.71.142",   # Server IP
+    # "your-company-domain",  # e.g., "acme" from acme.com
+    # "your-username",        # e.g., macOS username
+    # "1234567890",           # e.g., Monday board ID
+    # "abcd1234",             # e.g., first 8 chars of Jira Cloud UUID
+    # "your-email-prefix",    # e.g., part before @ in your email
+    # "your-colleague-name",  # e.g., names to scrub
+    # "10.0.1.100",           # e.g., server IP
 ]
 
 SENSITIVE_PATTERNS = [
@@ -57,16 +58,17 @@ def scan_directory(path: str) -> list[str]:
 
 def test_genericize_patterns():
     """Test that the replacement patterns work correctly."""
-    # Import from parent directory
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
     from genericize import genericize_content
 
+    # Use example test cases matching YOUR replacements.
+    # These use the template placeholders from genericize.py.
     test_cases = [
-        ("/Users/jenyagowork/projects", "$HOME/projects"),
-        ("thealternative.co", "YOUR_COMPANY.com"),
-        ("Strategyherogo", "YOUR_GITHUB_ORG"),
-        ("40e33327-adf8-4b21-a33e-bf0c4759a3fe", "YOUR_JIRA_CLOUD_ID"),
-        ("egoncharov@gmail.com", "user@gmail.com"),
+        ("/Users/YOUR_USERNAME/projects", "$HOME/projects"),
+        ("yourcompany.com", "YOUR_COMPANY.com"),
+        ("YourGitHubOrg", "YOUR_GITHUB_ORG"),
+        ("YOUR-JIRA-CLOUD-UUID", "YOUR_JIRA_CLOUD_ID"),
+        ("yourname@gmail.com", "user@gmail.com"),
     ]
 
     failures = []
@@ -85,7 +87,7 @@ def main():
     """Run all checks."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(script_dir)
-    pro_dir = os.path.join(project_root, "src", "pro")
+    pro_dir = os.path.join(project_root, "src", "power-pack")
 
     print("=== Genericize Tests ===\n")
 
