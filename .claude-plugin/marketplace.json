@@ -1,0 +1,94 @@
+{
+  "name": "claude-power-pack",
+  "owner": {
+    "name": "Evgeny Goncharov",
+    "email": "evgeny@techconcepts.org"
+  },
+  "metadata": {
+    "description": "Battle-tested skills, hooks, and automation for Claude Code — built across 15+ sessions of real production work",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "session-lifecycle",
+      "source": "./plugins/session-lifecycle",
+      "description": "Session management: start, save, handoff, restore, checkpoint, retro",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["session", "context", "handoff", "restore"]
+    },
+    {
+      "name": "app-store-swift",
+      "source": "./plugins/app-store-swift",
+      "description": "App Store submission, ASO, rejection handling, Swift workflows",
+      "version": "1.0.0",
+      "category": "mobile",
+      "tags": ["ios", "swift", "app-store", "aso"]
+    },
+    {
+      "name": "dev-quality",
+      "source": "./plugins/dev-quality",
+      "description": "API testing, test suites, code review, planning",
+      "version": "1.0.0",
+      "category": "development",
+      "tags": ["testing", "review", "quality"]
+    },
+    {
+      "name": "workspace-git",
+      "source": "./plugins/workspace-git",
+      "description": "Multi-project status, git cleanup, maintenance, gates",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["git", "workspace", "maintenance"]
+    },
+    {
+      "name": "ops-deploy",
+      "source": "./plugins/ops-deploy",
+      "description": "Infrastructure health, deployment, preflight checks",
+      "version": "1.0.0",
+      "category": "operations",
+      "tags": ["deploy", "infra", "health"]
+    },
+    {
+      "name": "content-creation",
+      "source": "./plugins/content-creation",
+      "description": "Blog, newsletter, LinkedIn, carousel, case study, content brief",
+      "version": "1.0.0",
+      "category": "content",
+      "tags": ["blog", "linkedin", "newsletter", "content"]
+    },
+    {
+      "name": "marketing-sales",
+      "source": "./plugins/marketing-sales",
+      "description": "SEO, GEO, outreach, competitive intel, landing copy, sales assets",
+      "version": "1.0.0",
+      "category": "sales",
+      "tags": ["seo", "geo", "sales", "marketing", "outreach"]
+    },
+    {
+      "name": "data-integration",
+      "source": "./plugins/data-integration",
+      "description": "Jira, Monday.com, data validation, reports",
+      "version": "1.0.0",
+      "category": "integration",
+      "tags": ["jira", "monday", "data", "reports"]
+    },
+    {
+      "name": "investigation",
+      "source": "./plugins/investigation",
+      "description": "Forensic audit, parallel forensic analysis",
+      "version": "1.0.0",
+      "category": "security",
+      "tags": ["forensic", "audit", "investigation"]
+    },
+    {
+      "name": "automation-learning",
+      "source": "./plugins/automation-learning",
+      "description": "Morning checks, credential discovery, lesson logging",
+      "version": "1.0.0",
+      "category": "automation",
+      "tags": ["automation", "credentials", "learning"]
+    }
+  ]
+}

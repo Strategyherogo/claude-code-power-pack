@@ -90,9 +90,9 @@ extension Bundle {
     }
 }
 
-// In WattoraApp.swift
+// In YourAppApp.swift
 @main
-struct WattoraApp: App {
+struct YourAppApp: App {
     @State private var localizationManager = LocalizationManager()
 
     var body: some Scene {

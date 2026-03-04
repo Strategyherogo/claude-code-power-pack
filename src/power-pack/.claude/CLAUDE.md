@@ -1,4 +1,4 @@
-# CLAUDE.md v7.0
+# CLAUDE.md v7.1
 
 **PRIMARY CONFIG:** `.claude/MASTER.md` (trigger mappings + tiers)
 **SKILL FILES:** `.claude/commands/` (full workflows, loaded on-demand)
@@ -58,6 +58,8 @@ Before accessing any authenticated service:
 - Never prematurely celebrate success — verify the thing actually works before confirming completion
 - When asked a specific question, answer that exact question before expanding
 - **"implement", "do it", "fix it", "go" = act immediately.** No re-explanation, no summary of what you're about to do, no confirmation request. Just do it.
+- **"fix X" means edit the source code/config** — don't try to run the broken command. Look at error messages and fix the source, not the symptom.
+- **Never archive, delete, or destructively modify resources** (Slack channels, files, projects) unless explicitly told to. Default to analysis and reporting only.
 
 ---
 
@@ -89,12 +91,14 @@ Before accessing any authenticated service:
 
 ---
 
-## BASH & SHELL SAFETY
+## ENVIRONMENT & SHELL SAFETY
 
-- **macOS only** — never use GNU/Linux-specific flags (no `date -d`, no `sed -i ''` with two args, no `grep -P`, no `readlink -f`)
+- **macOS only** — never use GNU/Linux-specific flags (no `date -d`, no `sed -i ''` with two args, no `grep -P`, no `readlink -f`, no `date +%N`)
+- Use `brew` for system packages. For pip, always use `--user` flag or `pipx` (PEP 668 brew-managed Python).
 - **Never delete CWD** — before any `rm -rf <path>`, verify path is not `$PWD` or an ancestor of it
 - **No piped chains as single Bash calls when simpler alternatives exist** — break `cmd1 | cmd2 | cmd3` into sequential steps if any step might fail
 - **Append operator** — use `cat >> file` or `tee -a` for appending; both are allowed
+- **Check existing deployments first** — before suggesting a new deployment, check existing DigitalOcean droplets, running processes, and current configs. Don't redeploy from scratch if already running.
 
 ---
 
@@ -111,6 +115,17 @@ Before accessing any authenticated service:
 - **Startup/session skills**: no subagent spawns, read-only, ≤ 10 lines of output
 - If the goal is "simplify" or "trim", the output MUST have fewer lines than the input — verify before declaring done
 - Never add steps to an existing skill without explicit user request
+
+---
+
+## DIAGNOSTIC APPROACH (from 94 wrong-approach friction incidents)
+
+- **Debug deployed services by checking RUNTIME** (logs, processes, webhook endpoints, `curl` health checks) — never diagnose a running service by reading its git repo status alone.
+- **App Store rejection reasons:** use macOS Mail CLI (`~/Library/Mail/`) — not Gmail API (wrong account), not ASC API (Resolution Center not exposed).
+- **When first approach fails, try a fundamentally different angle** — don't retry variants of the same failing method.
+- **After 3 failed attempts at anything:** stop, summarize what you tried and what you learned, propose a concrete alternative. Never loop silently.
+- **One deliverable per request** — if user asks for a file, produce exactly one file. Don't split into multiple unless asked.
+- **Use actual project context** (git history, existing files, user's real data) before falling back to generic templates or advice.
 
 ---
 
@@ -133,6 +148,9 @@ For forensic/data analysis: Always explicitly state timezone assumptions before 
 
 ### Session Management Fallbacks
 When running standup, handoff, save, or retro skills: if file writes are blocked, immediately output the full content to the terminal so the user can copy-paste it. Do not spend multiple attempts retrying blocked writes.
+
+### Tool Fallback Chain
+If Write/Edit is blocked → try Bash with `tee`/`cat heredoc`. If Bash is also blocked → try Read/Glob for input + output content to terminal. Never stall on a single blocked tool — immediately try the next fallback.
 
 ---
 
@@ -181,4 +199,4 @@ Workspace root may ONLY contain: PARA folders, `.claude/`, `.git/`, `.github/`, 
 
 ---
 
-*v6.0 — Security + preferences here. Triggers + context in MASTER.md.*
+*v7.2 — Added diagnostic approach rules + cs.sh preflight & auto-archival (2026-03-03). Security + preferences here. Triggers + context in MASTER.md.*

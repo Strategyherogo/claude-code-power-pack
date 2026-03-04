@@ -1,6 +1,6 @@
 # Project Context Reference
 
-## TechConcepts
+## YourCompany
 
 **Goal:** €5-15k/month consulting revenue within 3-6 months
 
@@ -81,5 +81,5 @@
 
 **Integration Points:**
 - Neuroperformance data informs work scheduling
-- TechConcepts content feeds podcast prep
+- YourCompany content feeds podcast prep
 - D&S tools support consulting automation

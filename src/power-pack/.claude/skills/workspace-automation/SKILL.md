@@ -66,7 +66,7 @@ python3 scripts/health_check.py config.json # Custom config
 | [triggers.md](references/triggers.md) | Complete trigger-workflow mappings |
 | [workflows.md](references/workflows.md) | Step-by-step workflow templates |
 | [mcp-config.md](references/mcp-config.md) | MCP server configs and patterns |
-| [projects.md](references/projects.md) | TechConcepts, D&S, SelfOrg context |
+| [projects.md](references/projects.md) | YourCompany, D&S, SelfOrg context |
 | [skills-catalog.md](references/skills-catalog.md) | **612 skills** indexed from resources |
 
 ## Skill Catalog (612 Skills)
@@ -99,6 +99,6 @@ Source: `3. Resources/CONSOLIDATED-RESOURCES.txt` (18MB, 1012 files)
 
 ## Project Quick Reference
 
-- **TechConcepts**: AI consulting, €5-15k/mo, NEPS, podcast
+- **YourCompany**: AI consulting, €5-15k/mo, NEPS, podcast
 - **D&S**: MCP servers, Mac apps, Chrome extensions, Cloudflare Workers
 - **SelfOrg**: Neuroperformance DB (621 days), HRV/stress/energy metrics

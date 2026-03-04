@@ -56,6 +56,37 @@ REPLACEMENTS = [
     (r"167\.71\.142\.118", "YOUR_SERVER_IP"),
     # GCP service accounts
     (r"gcp-service-account", "YOUR_SERVICE_ACCOUNT"),
+    # Apple Developer
+    (r"W5VGBZU449", "YOUR_APPLE_TEAM_ID"),
+    (r"126853098", "YOUR_ITUNES_TEAM_ID"),
+    (r"4ce35a36-0c5c-4d96-8e96-638b6eb3558d", "YOUR_ASC_ISSUER_ID"),
+    (r"367Y4J63B8", "YOUR_ASC_KEY_ID"),
+    (r"AuthKey_[A-Z0-9]+\.p8", "AuthKey_YOUR_KEY_ID.p8"),
+    # App Store App IDs
+    (r"6759666880", "YOUR_APP_ID"),
+    (r"6757957380", "YOUR_APP_ID"),
+    (r"6758680488", "YOUR_APP_ID"),
+    (r"6478761128", "YOUR_APP_ID"),
+    (r"6756375182", "YOUR_APP_ID"),
+    (r"6476440873", "YOUR_APP_ID"),
+    # Bundle IDs
+    (r"com\.wattora\.app", "com.yourcompany.yourapp"),
+    (r"com\.evgenygo\.\w+", "com.yourcompany.yourapp"),
+    (r"com\.evgenygoncharov\.\w+", "com.yourcompany.yourapp"),
+    (r"com\.dev\.phytimer\.\w+", "com.yourcompany.yourapp"),
+    (r"com\.dev\.expenceapp", "com.yourcompany.yourapp"),
+    # App names (replace specific product names)
+    (r"Wattora", "YourApp"),
+    (r"Mbox to EML Converter", "YourApp"),
+    (r"AI API Usage Battery", "YourApp"),
+    (r"Phygital Timer", "YourApp"),
+    (r"IOS Home Screen Layout Master", "YourApp"),
+    (r"eXpense - Money Tracker", "YourApp"),
+    (r"eXpense", "YourApp"),
+    # Domains (case-insensitive handled via re.IGNORECASE in apply)
+    (r"techconcepts\.org", "yourdomain.org"),
+    (r"[Tt]ech[Cc]oncepts", "YourCompany"),
+    (r"[Ww]attora", "YourApp"),
 ]
 
 
@@ -171,7 +202,10 @@ def verify_no_personal_data():
     sensitive = [
         "thealternative", "jenyagowork", "5091380", "40e33327",
         "egoncharov", "kupranis", "167.71.142", "eyJhbGciOi",
-        "ATATT3x", "sk-ant-api",
+        "ATATT3x", "sk-ant-api", "W5VGBZU449", "367Y4J63B8",
+        "4ce35a36", "techconcepts", "6759666880", "6757957380",
+        "com.wattora", "com.evgenygo", "com.evgenygoncharov",
+        "Wattora", "Phygital Timer", "eXpense",
     ]
     # xoxb- only counts as a leak if followed by 10+ digits (actual token)
     sensitive_patterns = [

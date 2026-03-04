@@ -18,7 +18,7 @@
 
 ## Recommended Additional MCPs
 
-Based on user's D&S project and TechConcepts goals:
+Based on user's D&S project and YourCompany goals:
 
 ### Stripe (Payment Processing)
 ```json
