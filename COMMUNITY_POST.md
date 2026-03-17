@@ -28,17 +28,15 @@ The genericizer that strips personal data for distribution (`genericize.py`) was
 **Install:**
 
 ```bash
-git clone https://github.com/Strategyherogo/claude-code-power-pack.git
-cd your-project
-bash /path/to/claude-code-power-pack/src/power-pack/install.sh
+git clone https://github.com/jenyago/claude-code-power-pack.git
 ```
 
-Skills are just markdown files — no dependencies, no build step, no runtime. Edit any skill to match your workflow.
+Then copy the `plugins/` folder contents into your project's `.claude/` directory. Skills are just markdown files — no dependencies, no build step, no runtime. Edit any skill to match your workflow.
 
 **Security:** The package contains only markdown and shell scripts. No API calls, no data collection, no credentials required. Hook scripts only read local git state. Full source is available to review.
 
-**Repo:** https://github.com/Strategyherogo/claude-code-power-pack
+**Repo:** https://github.com/jenyago/claude-code-power-pack
 
-Contributions welcome — see [CONTRIBUTING.md](https://github.com/Strategyherogo/claude-code-power-pack/blob/main/CONTRIBUTING.md) for how to add your own skills.
+Contributions welcome — see [CONTRIBUTING.md](https://github.com/jenyago/claude-code-power-pack/blob/main/CONTRIBUTING.md) for how to add your own skills.
 
 Happy to answer questions about the system architecture or specific skills.
