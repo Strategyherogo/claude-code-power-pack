@@ -397,10 +397,10 @@ IF warm intro possible:
 **Output:**
 
 ```markdown
-# Outreach Draft: David Tibbitts @ Notion
+# Outreach Draft: Alex Chen @ Acme Corp
 
 ## Research Summary
-**Target:** David Tibbitts, Head of Engineering at Notion
+**Target:** Alex Chen, Head of Engineering at Acme Corp
 **Hook:** They're scaling AI features and hiring ML talent
 **Goal:** Intro call about AI infrastructure
 
@@ -408,12 +408,12 @@ IF warm intro possible:
 
 ## Email Draft
 
-**To:** david@notion.so
-**Subject:** Notion's AI scaling + a thought
+**To:** alex@acmecorp.example
+**Subject:** Acme's AI scaling + a thought
 
 ---
 
-Hi David,
+Hi Alex,
 
 Saw Notion's AI rollout is gaining serious traction - congrats.
 With 5 ML roles open, seems like you're scaling fast.
